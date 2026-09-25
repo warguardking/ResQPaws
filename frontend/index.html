@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ResQPaws</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <p id="globalMessage" class="form-message"></p>
+    <!-- NAVBAR -->
+<nav class="navbar">
+
+    <div class="logo">
+        🐾 ResQPaws
+    </div>
+
+
+    <div class="nav-user">
+
+        <!-- GUEST -->
+
+        <div id="guestAuthButtons">
+
+            <button
+                type="button"
+                id="navLoginBtn"
+                class="nav-auth-btn"
+            >
+                Login
+            </button>
+
+            <button
+                type="button"
+                id="navRegisterBtn"
+                class="nav-auth-btn nav-register-btn"
+            >
+                Register
+            </button>
+
+        </div>
+
+
+        <!-- LOGGED IN -->
+
+        <div
+            id="loggedInUserArea"
+            class="logged-in-nav hidden"
+        >
+
+            <div class="nav-user-info">
+
+                <span id="userDisplay">
+                    User
+                </span>
+
+                <span
+                    id="userRoleDisplay"
+                    class="nav-role"
+                >
+                    Public User
+                </span>
+
+            </div>
+
+            <div id="navAvailability" class="nav-availability hidden">
+
+                <span id="navAvailabilityStatus">
+                    ⚪ Offline
+                </span>
+
+                <button
+                    type="button"
+                    id="navAvailabilityBtn"
+                    class="availability-toggle"
+                >
+                    Turn ON
+                </button>
+
+            </div>
+
+            <div class="notification-wrapper">
+
+                <button
+                    type="button"
+                    id="notificationBell"
+                    class="notification-bell"
+                    aria-label="Notifications"
+                    title="Notifications"
+                >
+                    🔔<span id="notificationBadge" class="notification-badge hidden">0</span>
+                </button>
+
+                <div
+                    id="notificationDropdown"
+                    class="notification-dropdown hidden"
+                >
+                    <div class="notification-dropdown-header">
+                        <strong>Notifications</strong>
+                        <button
+                            type="button"
+                            id="markAllNotificationsBtn"
+                            class="notification-read-btn"
+                        >
+                            Mark all read
+                        </button>
+                    </div>
+                    <div id="notificationList">
+                        <div class="empty-state">No notifications yet.</div>
+                    </div>
+                </div>
+
+            </div>
+
+            <button
+                type="button"
+                id="menuToggleBtn"
+                class="menu-toggle-btn"
+            >
+                ☰ Menu
+            </button>
+
+
+            <!-- MENU -->
+
+            <div
+                id="navMenu"
+                class="nav-menu hidden"
+            >
+
+                <div class="nav-menu-header">
+
+                    <strong id="menuUserName">
+                        User
+                    </strong>
+
+                    <span id="menuUserRole">
+                        Public User
+                    </span>
+
+                </div>
+
+
+                <div class="nav-menu-links">
+
+                    <a href="#home">
+                        🏠 Home
+                    </a>
+
+                    <a
+                        href="#announcements"
+                        id="menuAnnouncements"
+                    >
+                        📢 Announcements
+                    </a>
+
+                    <a
+                        href="#aiRescueAssistant"
+                        id="menuAiAssistant"
+                    >
+                        🤖 Rescue Assistant
+                    </a>
+
+                    <a href="#report" id="menuReport">
+                        🚨 Report an Animal
+                    </a>
+
+                    <a
+                        href="#nearbyHelpersSection"
+                        id="menuNearbyHelpers"
+                    >
+                        📍 Nearby Helpers
+                    </a>
+
+                    <a
+                        href="#history"
+                        id="menuHistory"
+                    >
+                        📋 My Reports
+                    </a>
+
+                    <a
+                        href="#history"
+                        id="menuTrackReports"
+                    >
+                        🧭 Track My Reports
+                    </a>
+
+                    <!-- HELPER -->
+
+                    <a
+                        href="#nearbyRescues"
+                        id="menuRescueRequests"
+                    >
+                        🚨 Rescue Requests
+                    </a>
+
+                    <a
+                        href="#activeRescues"
+                        id="menuActiveRescues"
+                    >
+                        🐾 Active Requests
+                    </a>
+
+                    <a
+                        href="#resolvedHistory"
+                        id="menuResolvedHistory"
+                    >
+                        🏅 Resolved History
+                    </a>
+
+                </div>
+
+                <div class="nav-menu-footer">
+
+                    <button
+                        type="button"
+                        id="menuLogoutBtn"
+                        class="menu-logout-btn"
+                    >
+                        Logout
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</nav>   
+
+    <!-- HERO -->
+    <section id="home" class="hero">
+
+        <div class="hero-content">
+
+            <p class="eyebrow">
+                SEE • REPORT • ALERT • RESCUE
+            </p>
+
+            <h1>
+                Help can start with you.
+            </h1>
+
+            <p class="hero-text">
+                Spot an animal in danger? Report it.
+                ResQPaws connects the rescue request with
+                nearby available volunteers.
+            </p>
+
+            <div class="hero-buttons">
+
+
+                <button
+                    id="heroRequestBtn"
+                    class="secondary-btn">
+                    🧭 See How It Works
+                </button>
+
+            </div>
+
+        </div>
+
+        <div class="hero-animal">
+            🐕
+        </div>
+
+    </section>
+
+
+    <!-- WHAT RESQPAWS PROVIDES -->
+    <section class="section intro-section">
+
+        <div class="section-heading">
+            <p class="eyebrow">WHAT WE PROVIDE</p>
+            <h2>One place for the complete rescue journey.</h2>
+            <p>
+                ResQPaws connects the person who notices an animal in danger
+                with nearby rescue support and keeps the case traceable.
+            </p>
+        </div>
+
+        <div class="info-card-grid">
+
+            <article class="info-card">
+                <div class="info-card-icon">🚨</div>
+                <h3>Fast Rescue Reporting</h3>
+                <p>
+                    Report the animal, condition, emergency level and exact location
+                    so the case can reach nearby helpers.
+                </p>
+            </article>
+
+            <article class="info-card">
+                <div class="info-card-icon">📍</div>
+                <h3>Nearby Support</h3>
+                <p>
+                    Public users can find nearby volunteers, NGOs and veterinary support
+                    using live location and distance.
+                </p>
+            </article>
+
+            <article class="info-card">
+                <div class="info-card-icon">🤝</div>
+                <h3>Rescue Coordination</h3>
+                <p>
+                    Volunteers, NGOs and vets can see nearby rescue requests,
+                    respond and continue the rescue workflow.
+                </p>
+            </article>
+
+            <article class="info-card">
+                <div class="info-card-icon">📋</div>
+                <h3>Case History</h3>
+                <p>
+                    Every rescue keeps a timeline so the progress from report
+                    to resolution can be followed clearly.
+                </p>
+            </article>
+
+        </div>
+
+    </section>
+
+
+    <!-- WHO CAN USE RESQPAWS -->
+    <section class="section roles-section">
+
+        <div class="section-heading">
+            <p class="eyebrow">WHO CAN USE IT</p>
+            <h2>Different roles. One connected rescue network.</h2>
+            <p>
+                Each account gets the tools that match the way they participate in rescue.
+            </p>
+        </div>
+
+        <div class="role-card-grid">
+
+            <article class="role-card">
+                <div class="role-card-icon">👤</div>
+                <h3>Public User</h3>
+                <p>Report animals in need, find nearby helpers and track your own reports.</p>
+                <ul>
+                    <li>Report rescue</li>
+                    <li>Nearby helpers</li>
+                    <li>My reports</li>
+                    <li>Rescue timeline</li>
+                </ul>
+            </article>
+
+            <article class="role-card">
+                <div class="role-card-icon">🧑‍🚒</div>
+                <h3>Volunteer</h3>
+                <p>Stay available, receive nearby rescue requests and manage assigned cases.</p>
+                <ul>
+                    <li>Availability</li>
+                    <li>Rescue requests</li>
+                    <li>Active requests</li>
+                    <li>Case timeline</li>
+                </ul>
+            </article>
+
+            <article class="role-card">
+                <div class="role-card-icon">🏢</div>
+                <h3>NGO</h3>
+                <p>Participate in rescue coordination while showing organization and service details.</p>
+                <ul>
+                    <li>Availability</li>
+                    <li>Rescue requests</li>
+                    <li>Active requests</li>
+                </ul>
+            </article>
+
+            <article class="role-card">
+                <div class="role-card-icon">🏥</div>
+                <h3>Veterinary Support</h3>
+                <p>Provide veterinary support information and participate in rescue cases nearby.</p>
+                <ul>
+                    <li>Availability</li>
+                    <li>Rescue requests</li>
+                    <li>Active requests</li>
+                </ul>
+            </article>
+
+        </div>
+
+    </section>
+
+
+    <!-- LOGIN / REGISTER -->
+    <section id="authSection" class="section auth-section hidden">
+
+        <div class="section-heading">
+
+            <p class="eyebrow">
+                GET STARTED
+            </p>
+
+            <h2>
+                Login to ResQPaws
+            </h2>
+
+            <p>
+                Login to continue as a public user, volunteer, NGO or veterinary support.
+            </p>
+
+        </div>
+
+
+        <div class="auth-grid">
+
+            <!-- LOGIN -->
+
+            <div class="card" id="loginCard">
+
+                <h3>Login</h3>
+
+                <form id="loginForm">
+
+                    <label>Email</label>
+
+                    <input
+                        type="email"
+                        id="loginEmail"
+                        placeholder="you@example.com"
+                        required
+                    >
+
+                    <label>Password</label>
+
+                    <input
+                        type="password"
+                        id="loginPassword"
+                        placeholder="Password"
+                        required
+                    >
+
+                    <button
+                        type="submit"
+                        class="primary-btn full-width">
+                        Login
+                    </button>
+
+                </form>
+
+                <p id="loginMessage" class="form-message"></p>
+
+                <div class="auth-switch">
+                    Don't have an account?
+
+                    <button
+                        type="button"
+                        id="showRegisterBtn"
+                        class="text-btn">
+                        Create account
+                    </button>
+                </div>
+
+            </div>
+
+
+            <!-- REGISTER -->
+
+            <div class="card hidden" id="registerCard">
+
+                <h3>Create Account</h3>
+
+                <form id="registerForm">
+
+                    <label>Full Name</label>
+
+                    <input
+                        type="text"
+                        id="registerName"
+                        placeholder="Your name"
+                        required
+                    >
+
+                    <label>Email</label>
+
+                    <input
+                        type="email"
+                        id="registerEmail"
+                        placeholder="you@example.com"
+                        required
+                    >
+
+                    <label>Password</label>
+
+<div class="password-field">
+    <input
+        type="password"
+        id="registerPassword"
+        placeholder="Enter password"
+        required
+    >
+
+    <button
+        type="button"
+        class="password-toggle"
+        id="toggleRegisterPassword"
+        aria-label="Show password"
+    >
+        👁️
+    </button>
+</div>
+
+<label>Confirm Password</label>
+
+<div class="password-field">
+    <input
+        type="password"
+        id="registerConfirmPassword"
+        placeholder="Re-enter password"
+        required
+    >
+
+    <button
+        type="button"
+        class="password-toggle"
+        id="toggleRegisterConfirmPassword"
+        aria-label="Show password"
+    >
+        👁️
+    </button>
+</div>
+
+                    <label>Role</label>
+
+                    <select id="registerRole">
+
+                        <option value="public">
+                            Public User
+                        </option>
+
+                        <option value="volunteer">
+                            Volunteer
+                        </option>
+
+                        <option value="ngo">
+                            NGO
+                        </option>
+
+                        <option value="vet">
+                            Veterinary Hospital / Vet
+                        </option>
+
+                    </select>
+
+                    <label>Phone Number</label>
+
+<input
+    type="tel"
+    id="registerPhone"
+    placeholder="Enter 10-digit phone number"
+    inputmode="numeric"
+    maxlength="10"
+    minlength="10"
+    pattern="[0-9]{10}"
+>
+
+                    <label>Address</label>
+
+                    <input
+                        type="text"
+                        id="registerLocation"
+                        placeholder="Enter full address"
+                        required
+                    >
+
+                    <div class="location-box">
+
+                    <button
+                        type="button"
+                        id="getRegisterLocationBtn"
+                        class="secondary-btn"
+                    >
+                        📍 Use Current Location
+                    </button>
+
+                    <div id="registerLocationStatus">
+                        Location not set
+                    </div>
+
+
+
+                    </div>
+
+                <input
+                    type="hidden"
+                    id="registerLatitude"
+                >
+
+                <input
+                    type="hidden"
+                    id="registerLongitude"
+                >
+
+                    <label id="organizationNameLabel" class="provider-field hidden">
+                        NGO / Hospital Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="organizationName"
+                        class="provider-field hidden"
+                        placeholder="ABC Animal Welfare / ABC Veterinary Hospital"
+                    >
+
+                    <label id="availableFromLabel" class="provider-field hidden">
+                        Available From
+                    </label>
+
+                    <input
+                        type="time"
+                        id="availableFrom"
+                        class="provider-field hidden"
+                    >
+
+                    <label id="availableToLabel" class="provider-field hidden">
+                        Available To
+                    </label>
+
+                    <input
+                        type="time"
+                        id="availableTo"
+                        class="provider-field hidden"
+                    >
+
+                    <label id="servicesLabel" class="provider-field hidden">
+                        Services
+                    </label>
+
+                    <input
+                        type="text"
+                        id="services"
+                        class="provider-field hidden"
+                        placeholder="Rescue, First Aid, Shelter"
+                    >
+
+                    <label
+                        id="emergencyAvailableLabel"
+                        class="provider-field hidden"
+                    >
+                        <input
+                            type="checkbox"
+                            id="emergencyAvailable"
+                            class="provider-field hidden"
+                        >
+
+                        Emergency Assistance Available
+                    </label>
+
+                    <button
+                        type="submit"
+                        class="secondary-btn full-width">
+                        Create Account
+                    </button>
+
+                </form>
+
+                <p id="registerMessage" class="form-message"></p>
+
+                <div class="auth-switch">
+                    Already have an account?
+
+                    <button
+                        type="button"
+                        id="showLoginBtn"
+                        class="text-btn">
+                        Login
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- REPORT -->
+    <!-- AI RESCUE ASSISTANT -->
+    <section id="aiRescueAssistant" class="section ai-rescue-section">
+
+        <div class="section-heading">
+            <p class="eyebrow">RESCUE ASSISTANT</p>
+            <h2>🤖 AI Rescue Assistant</h2>
+            <p class="section-description">Upload an animal photo and describe what you noticed. The assistant can point out visible concerns, suggest safe first-aid steps, and tell you when urgent veterinary help is needed.</p>
+        </div>
+
+        <div class="card ai-rescue-card">
+            <form id="aiRescueForm">
+                <label for="aiSituation">What did you notice?</label>
+                <textarea
+                    id="aiSituation"
+                    rows="4"
+                    placeholder="Example: The dog is limping and has a wound on its leg."
+                ></textarea>
+
+                <label for="aiRescueImage">Animal photo</label>
+                <input type="file" id="aiRescueImage" accept="image/jpeg,image/png,image/webp" required>
+                <div id="aiImagePreview" class="ai-image-preview"></div>
+
+                <button type="submit" id="aiRescueSubmitBtn" class="primary-btn">🔎 Analyse & Get First Aid Guidance</button>
+            </form>
+
+            <p id="aiRescueMessage" class="form-message"></p>
+
+            <div id="aiRescueResult" class="ai-rescue-result hidden">
+                <div class="ai-result-block">
+                    <h3>👀 What the photo suggests</h3>
+                    <p id="aiObservations"></p>
+                </div>
+
+                <div class="ai-result-block">
+                    <h3>🩹 Safe immediate steps</h3>
+                    <ul id="aiImmediateSteps"></ul>
+                </div>
+
+                <div class="ai-result-block ai-avoid-block">
+                    <h3>⚠️ Avoid</h3>
+                    <ul id="aiAvoidSteps"></ul>
+                </div>
+
+                <div class="ai-result-block ai-urgent-block">
+                    <h3>🏥 When to get urgent help</h3>
+                    <p id="aiUrgentHelp"></p>
+                </div>
+
+                <p class="ai-disclaimer">AI guidance is only general rescue guidance, not a veterinary diagnosis. If the animal appears seriously injured, in severe pain, unconscious, unable to breathe normally, or otherwise in immediate danger, contact a veterinarian or emergency rescue service immediately.</p>
+            </div>
+        </div>
+
+    </section>
+
+    <section id="report" class="section">
+
+        <div class="section-heading">
+
+            <p class="eyebrow">
+                REPORT
+            </p>
+
+            <h2>
+                Report an Animal Rescue
+            </h2>
+
+            <p>
+                Share the animal's location and condition.
+            </p>
+
+        </div>
+
+
+        <div class="card report-card">
+
+            <form id="rescueForm">
+
+                <div class="form-grid">
+
+                    <div>
+
+                        <label>Animal Type</label>
+
+                        <select id="animalType" required>
+
+                            <option value="">
+                                Select animal
+                            </option>
+
+                            <option value="Dog">
+                                🐕 Dog
+                            </option>
+
+                            <option value="Cat">
+                                🐈 Cat
+                            </option>
+
+                            <option value="Cow">
+                                🐄 Cow
+                            </option>
+
+                            <option value="Bird">
+                                🐦 Bird
+                            </option>
+
+                            <option value="Other">
+                                🐾 Other
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div>
+
+                        <label>Emergency Level</label>
+
+                        <select id="emergencyLevel" required>
+
+                            <option value="low">
+                                Low
+                            </option>
+
+                            <option value="medium" selected>
+                                Medium
+                            </option>
+
+                            <option value="high">
+                                High
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <label>Description</label>
+
+                <textarea
+                    id="rescueDescription"
+                    rows="5"
+                    placeholder="Describe what happened..."
+                    required
+                ></textarea>
+
+                <label>Animal Photos</label>
+
+                <input
+                    type="file"
+                    id="rescuePhotos"
+                    multiple
+                >
+
+                <p class="form-hint">
+                    Add as many photos as you have. There is no file type or size restriction.
+                </p>
+
+                <div id="rescuePhotoPreview" class="photo-preview-grid"></div>
+
+
+                <label>Location</label>
+
+                <input
+                    type="text"
+                    id="rescueLocation"
+                    placeholder="Cumbum"
+                    required
+                >
+
+
+                <div class="location-box">
+
+                    <button
+                        type="button"
+                        id="currentLocationBtn"
+                        class="secondary-btn">
+                        📍 Use My Current Location
+                    </button>
+
+                    <p id="locationMessage" class="form-message"></p>
+
+
+                </div>
+
+                <input type="hidden" id="rescueLatitude" required>
+                <input type="hidden" id="rescueLongitude" required>
+
+                <button
+                    type="submit"
+                    class="primary-btn">
+                    🚨 Submit Rescue Request
+                </button>
+
+            </form>
+
+
+            <p id="rescueMessage" class="form-message"></p>
+
+        </div>
+
+    </section>
+
+
+
+
+<!-- NEARBY HELPERS -->
+<section id="nearbyHelpersSection" class="nearby-helpers-section">
+
+    <div class="section-heading">
+        <span class="section-kicker">Nearby Support</span>
+        <h2>Nearby Rescue Helpers</h2>
+        <p>Volunteers, NGOs and veterinary support near you.</p>
+    </div>
+
+    <div class="nearby-helper-controls">
+
+        <button
+            type="button"
+            id="findNearbyHelpersBtn"
+            class="secondary-btn"
+        >
+            📍 Find Helpers Near Me
+        </button>
+
+        <span id="nearbyHelpersStatus">
+            Location not set
+        </span>
+
+    </div>
+
+    <div
+        id="nearbyHelpersList"
+        class="nearby-helpers-grid"
+    >
+        <div class="empty-state">
+            Click "Find Helpers Near Me" to search nearby support.
+        </div>
+    </div>
+
+</section>
+
+<!-- NEARBY RESCUE REQUESTS -->
+<section
+    id="nearbyRescues" class="section helper-only-section"
+    >
+
+    <div class="section-heading nearby-heading">
+
+        <div>
+            <p class="eyebrow">NEARBY</p>
+
+            <h2>📍 Nearby Rescue Requests</h2>
+
+            <p class="section-description">
+                Rescue requests reported near your current location.
+            </p>
+        </div>
+
+        <button
+            type="button"
+            id="refreshNearbyRescuesBtn"
+            class="secondary-btn"
+            onclick="loadNearbyRescues()">
+            🔄 Refresh
+        </button>
+
+    </div>
+
+    <div
+        id="nearbyRescueList"
+        class="rescue-list">
+
+        <div class="empty-state">
+            Turn ON availability to find nearby rescues.
+        </div>
+
+    </div>
+
+</section>
+
+    <!-- ACTIVE RESCUES -->
+    <section id="activeRescues" class="section helper-only-section">
+
+        <div class="section-heading">
+
+            <p class="eyebrow">
+                VOLUNTEER
+            </p>
+
+            <h2>
+                🚑 My Active Rescue Requests
+            </h2>
+            <p class="section-description">
+                Rescue requests currently assigned to you.
+            </p>
+        </div>
+
+
+        <div id="activeRescueList" class="rescue-list">
+
+            <div class="empty-state">
+                Volunteer active rescues will appear here.
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ANNOUNCEMENTS -->
+    <section id="announcements" class="section logged-in-only-section">
+
+        <div class="section-heading">
+            <p class="eyebrow">COMMUNITY</p>
+            <h2>📢 Announcements</h2>
+            <p class="section-description">Free camps, awareness programs and important community updates from NGOs and veterinary support.</p>
+        </div>
+
+        <div id="announcementPostCard" class="card announcement-post-card hidden">
+            <h3>Post an Announcement</h3>
+            <form id="announcementForm">
+                <label>Title</label>
+                <input type="text" id="announcementTitle" placeholder="Free vaccination camp" required>
+
+                <label>Event Date</label>
+                <input type="date" id="announcementEventDate" required>
+
+                <label>Location</label>
+                <input type="text" id="announcementLocation" placeholder="Camp / program location">
+
+                <label>Description</label>
+                <textarea id="announcementDescription" rows="5" placeholder="Tell the community about the event..." required></textarea>
+
+                <label>Poster</label>
+                <input type="file" id="announcementPoster">
+
+                <button type="submit" class="primary-btn">📢 Post Announcement</button>
+            </form>
+            <p id="announcementMessage" class="form-message"></p>
+        </div>
+
+        <div id="announcementList" class="announcement-list">
+            <div class="empty-state">Loading announcements...</div>
+        </div>
+
+    </section>
+
+    <!-- RESOLVED HISTORY -->
+    <section id="resolvedHistory" class="section helper-only-section">
+        <div class="section-heading">
+            <p class="eyebrow">YOUR RESCUE RECORD</p>
+            <h2>🏅 Resolved History</h2>
+            <p class="section-description">Every rescue you accepted and completed stays here permanently.</p>
+        </div>
+        <div id="resolvedHistoryList" class="rescue-list">
+            <div class="empty-state">Your completed rescue cases will appear here.</div>
+        </div>
+    </section>
+
+    <!-- HISTORY -->
+    <section id="history" class="section">
+
+        <div class="section-heading">
+
+            <p class="eyebrow">
+                TRACKING
+            </p>
+
+            <h2 id="historyTitle">My Reports</h2>
+            <p class="section-description">
+                Track the complete progress of every report you created.
+            </p>
+        </div>
+
+
+        <div id="historyList" class="history-list">
+
+            <div class="empty-state">
+                Select a rescue to view its timeline.
+            </div>
+        </div>
+    </section>
+
+
+    <!-- HOW IT WORKS -->
+    <section id="howItWorks" class="section how-section">
+
+        <div class="section-heading">
+
+            <p class="eyebrow">
+                HOW IT WORKS
+            </p>
+
+            <h2>
+                Rescue starts with one report.
+            </h2>
+
+        </div>
+
+
+        <div class="steps">
+
+            <div class="step-card">
+                <span>01</span>
+                <h3>See</h3>
+                <p>Notice an animal that needs help.</p>
+            </div>
+
+            <div class="step-card">
+                <span>02</span>
+                <h3>Report</h3>
+                <p>Send the animal details and location.</p>
+            </div>
+
+            <div class="step-card">
+                <span>03</span>
+                <h3>Alert</h3>
+                <p>Nearby available volunteers are notified.</p>
+            </div>
+
+            <div class="step-card">
+                <span>04</span>
+                <h3>Rescue</h3>
+                <p>A volunteer responds and tracks the rescue.</p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer>
+
+        <div>
+            🐾 <strong>ResQPaws</strong>
+        </div>
+
+        <p>
+            See • Report • Alert • Rescue
+        </p>
+
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
