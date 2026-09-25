@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://127.0.0.1:8000";
+const API_BASE_URL = "https://resqpaws-3z4o.onrender.com";
 
 let token = localStorage.getItem("resqpaws_token");
 let currentUser = null;
