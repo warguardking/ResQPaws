@@ -100,22 +100,6 @@ function updateProviderProfile() {
     const phone =
         document.getElementById("providerPhone");
     
-    const cleanPhone =
-        phone.trim();
-
-    if (
-    cleanPhone &&
-    !/^[0-9]{10}$/.test(cleanPhone)
-) {
-
-    showMessage(
-        "registerMessage",
-        "Phone number must contain exactly 10 digits.",
-        false
-    );
-
-    return;
-}
 
     const address =
         document.getElementById("providerAddress");
