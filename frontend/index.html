@@ -262,6 +262,31 @@
                     🧭 See How It Works
                 </button>
 
+                <!-- Logged-in user home dashboard -->
+                <div id="userWelcomeDashboard" class="user-welcome-dashboard hidden">
+                    <div class="welcome-banner">
+                        <p class="welcome-eyebrow">RESQPAWS COMMUNITY</p>
+                        <h2 id="welcomeHeading">Welcome back!</h2>
+                        <p id="welcomeMessage">
+                            Together, we can make a difference for animals in need.
+                        </p>
+                    </div>
+
+                    <div class="user-dashboard-content">
+                        <p class="dashboard-eyebrow">YOUR OVERVIEW</p>
+                        <h2 id="userDashboardTitle">Your Dashboard</h2>
+                        <p id="userDashboardSubtitle">
+                            Your activity and rescue statistics at a glance.
+                        </p>
+
+                        <div id="userDashboardCards" class="dashboard-grid">
+                            <div class="dashboard-loading">
+                                Loading your statistics...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
         </div>
@@ -273,25 +298,6 @@
     </section>
 
 
-<!-- DASHBOARD -->
-<section id="dashboardSection" class="section dashboard-section">
-    <div class="section-heading">
-        <p class="eyebrow">RESQPAWS OVERVIEW</p>
-        <h2 id="dashboardTitle">ResQPaws Dashboard</h2>
-        <p id="dashboardSubtitle" class="section-description">
-            Live community and rescue statistics.
-        </p>
-    </div>
-
-    <div id="dashboardCards" class="dashboard-grid">
-        <div class="dashboard-loading">Loading live statistics...</div>
-    </div>
-
-    <p id="dashboardError" class="dashboard-error hidden"></p>
-    <button id="dashboardRetryBtn" class="secondary-btn hidden" type="button">
-        ↻ Retry statistics
-    </button>
-</section>
 
     <!-- WHAT RESQPAWS PROVIDES -->
     <section id="introSection" class="section intro-section">
@@ -411,6 +417,25 @@
 
     </section>
 
+<!-- DASHBOARD -->
+<section id="dashboardSection" class="section dashboard-section">
+    <div class="section-heading">
+        <p class="eyebrow">RESQPAWS OVERVIEW</p>
+        <h2 id="dashboardTitle">ResQPaws Dashboard</h2>
+        <p id="dashboardSubtitle" class="section-description">
+            Live community and rescue statistics.
+        </p>
+    </div>
+
+    <div id="dashboardCards" class="dashboard-grid">
+        <div class="dashboard-loading">Loading live statistics...</div>
+    </div>
+
+    <p id="dashboardError" class="dashboard-error hidden"></p>
+    <button id="dashboardRetryBtn" class="secondary-btn hidden" type="button">
+        ↻ Retry statistics
+    </button>
+</section>
 
     <!-- LOGIN / REGISTER -->
     <section id="authSection" class="section auth-section hidden">

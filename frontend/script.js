@@ -56,7 +56,103 @@ const dashboardError = document.getElementById("dashboardError");
 const dashboardRetryBtn = document.getElementById("dashboardRetryBtn");
 
 function renderDashboardCards(stats) {
-    if (!dashboardCards) return;
+    
+function renderDashboardCards(stats) {
+    const role = currentUser?.role;
+
+    const loggedIn = Boolean(currentUser);
+    const targetCards = loggedIn
+        ? document.getElementById("userDashboardCards")
+        : document.getElementById("dashboardCards");
+
+    if (!targetCards) return;
+
+    if (loggedIn) {
+        const welcomeBox =
+            document.getElementById("userWelcomeDashboard");
+        const welcomeHeading =
+            document.getElementById("welcomeHeading");
+        const welcomeMessage =
+            document.getElementById("welcomeMessage");
+        const title =
+            document.getElementById("userDashboardTitle");
+        const subtitle =
+            document.getElementById("userDashboardSubtitle");
+
+        const username =
+            currentUser.username ||
+            currentUser.full_name ||
+            currentUser.name ||
+            "there";
+
+        if (welcomeBox) welcomeBox.classList.remove("hidden");
+        if (welcomeHeading) {
+            welcomeHeading.textContent = `Welcome back, ${username}!`;
+        }
+        if (welcomeMessage) {
+            welcomeMessage.textContent =
+                "Here is your ResQPaws activity and rescue overview.";
+        }
+
+        if (title) {
+            title.textContent =
+                role === "public" ? "Your Dashboard" :
+                role === "volunteer" ? "Volunteer Dashboard" :
+                role === "ngo" ? "NGO Dashboard" :
+                role === "vet" ? "Vet Hospital Dashboard" :
+                "Your Dashboard";
+        }
+
+        if (subtitle) {
+            subtitle.textContent =
+                "Your latest statistics at a glance.";
+        }
+    }
+
+    let cards = [];
+
+    if (!loggedIn) {
+        cards = [
+            ["Public Users", stats.public_users, "👥"],
+            ["Volunteers", stats.volunteers, "🤝"],
+            ["NGOs", stats.ngos, "🏢"],
+            ["Vet Hospitals", stats.vet_hospitals, "🏥"]
+        ];
+    } else if (role === "public") {
+        cards = [
+            ["Announcements Received", stats.announcements_received, "📢"],
+            ["Nearby Helpers", stats.nearby_helpers, "📍"],
+            ["Reported Rescues", stats.reported_rescues, "🚨"]
+        ];
+    } else if (role === "volunteer") {
+        cards = [
+            ["Announcements Received", stats.announcements_received, "📢"],
+            ["Reported Rescues", stats.reported_rescues, "🚨"],
+            ["Rescue Requests Received", stats.rescue_requests_received, "📨"],
+            ["Active Rescues", stats.active_rescues, "🚑"],
+            ["Resolved History", stats.resolved_history, "✅"]
+        ];
+    } else if (role === "ngo" || role === "vet") {
+        cards = [
+            ["Total Announcements", stats.announcements_total, "📢"],
+            ["Announcements Received", stats.announcements_received, "📬"],
+            ["Rescue Requests Received", stats.rescue_requests_received, "📨"],
+            ["Active Rescues", stats.active_rescues, "🚑"],
+            ["Resolved History", stats.resolved_history, "✅"]
+        ];
+    }
+
+    targetCards.innerHTML = cards.map(function (card) {
+        return `
+            <article class="dashboard-card">
+                <span class="dashboard-card-icon">${card[2]}</span>
+                <p class="dashboard-card-label">${card[0]}</p>
+                <strong class="dashboard-card-value">${card[1] ?? 0}</strong>
+            </article>
+        `;
+    }).join("");
+}
+
 
     const role = currentUser?.role;
 
@@ -119,33 +215,47 @@ function renderDashboardCards(stats) {
     }).join("");
 }
 
+
 async function loadDashboardStats() {
-    if (!dashboardCards) return;
+    const loggedIn = Boolean(currentUser);
+    const guestCards = document.getElementById("dashboardCards");
+    const userCards = document.getElementById("userDashboardCards");
+    const activeCards = loggedIn ? userCards : guestCards;
+
+    if (!activeCards) return;
+
+    const dashboardError = document.getElementById("dashboardError");
+    const dashboardRetryBtn = document.getElementById("dashboardRetryBtn");
 
     if (dashboardError) {
         dashboardError.classList.add("hidden");
         dashboardError.textContent = "";
     }
-    if (dashboardRetryBtn) dashboardRetryBtn.classList.add("hidden");
 
-    dashboardCards.innerHTML =
+    if (dashboardRetryBtn) {
+        dashboardRetryBtn.classList.add("hidden");
+    }
+
+    activeCards.innerHTML =
         '<div class="dashboard-loading">Loading live statistics...</div>';
 
     try {
-        const endpoint = currentUser
+        const endpoint = loggedIn
             ? "/api/dashboard/stats"
             : "/api/dashboard/public-stats";
 
         const stats = await apiRequest(endpoint);
         renderDashboardCards(stats);
+
     } catch (error) {
-        dashboardCards.innerHTML = "";
+        activeCards.innerHTML = "";
 
         if (dashboardError) {
             dashboardError.textContent =
-                "Live statistics is not loading. Check the connection and retry.";
+                "Live statistics load aagala. Connection check pannitu retry pannunga.";
             dashboardError.classList.remove("hidden");
         }
+
         if (dashboardRetryBtn) {
             dashboardRetryBtn.classList.remove("hidden");
         }
@@ -153,6 +263,7 @@ async function loadDashboardStats() {
         console.error("Dashboard statistics error:", error);
     }
 }
+
 
 if (dashboardRetryBtn) {
     dashboardRetryBtn.addEventListener("click", loadDashboardStats);
@@ -661,6 +772,13 @@ function updateAuthUI() {
 
         if (dashboardSection) {
             dashboardSection.classList.remove("hidden");
+        }
+
+        const userWelcomeDashboard =
+            document.getElementById("userWelcomeDashboard");
+
+        if (userWelcomeDashboard) {
+            userWelcomeDashboard.classList.toggle("hidden", !isLoggedIn);
         }
 
     loadDashboardStats();
