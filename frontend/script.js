@@ -390,6 +390,37 @@ function updateProviderProfile() {
             : "Not available";
 }
 
+function updateWelcomeDashboard() {
+    const welcomeBox = document.getElementById("userWelcomeDashboard");
+    const welcomeHeading = document.getElementById("welcomeHeading");
+    const welcomeMessage = document.getElementById("welcomeMessage");
+
+    if (!welcomeBox) return;
+
+    if (!currentUser) {
+        welcomeBox.classList.add("hidden");
+        return;
+    }
+
+    const username =
+        currentUser.username ||
+        currentUser.full_name ||
+        currentUser.name ||
+        currentUser.email ||
+        "there";
+
+    welcomeBox.classList.remove("hidden");
+
+    if (welcomeHeading) {
+        welcomeHeading.textContent = `Welcome back, ${username}!`;
+    }
+
+    if (welcomeMessage) {
+        welcomeMessage.textContent =
+            "Your rescue activity and community statistics are ready below.";
+    }
+}
+
 function updateAuthUI() {
 
     const guestAuthButtons =
@@ -780,7 +811,7 @@ function updateAuthUI() {
         if (userWelcomeDashboard) {
             userWelcomeDashboard.classList.toggle("hidden", !isLoggedIn);
         }
-
+    updateWelcomeDashboard();
     loadDashboardStats();
 
     // =================================

@@ -3333,3 +3333,147 @@ footer p {
         min-height: 130px;
     }
 }
+
+/* ResQPaws themed dashboard */
+.dashboard-section,
+.user-welcome-dashboard {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    padding: 36px clamp(16px, 4vw, 48px);
+    margin: 0 auto;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 18px;
+    width: 100%;
+    margin: 24px 0 0;
+    box-sizing: border-box;
+}
+
+.dashboard-card {
+    box-sizing: border-box;
+    min-width: 0;
+    min-height: 165px;
+    padding: 22px;
+    border-radius: 18px;
+
+    /* Dark ResQPaws theme */
+    background: linear-gradient(145deg, #172554, #111b40);
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.16);
+
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(45, 212, 191, 0.65);
+}
+
+.dashboard-card-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    margin-bottom: 14px;
+    border-radius: 13px;
+    background: rgba(45, 212, 191, 0.13);
+    font-size: 22px;
+}
+
+.dashboard-card-label {
+    margin: 0 0 10px;
+    color: #cbd5e1;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.dashboard-card-value {
+    display: block;
+    color: #ffffff;
+    font-size: clamp(27px, 2.5vw, 36px);
+    line-height: 1.2;
+    font-weight: 800;
+    overflow-wrap: anywhere;
+}
+
+.dashboard-loading {
+    grid-column: 1 / -1;
+    padding: 24px;
+    color: #cbd5e1;
+    text-align: center;
+    background: rgba(23, 37, 84, 0.7);
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    border-radius: 16px;
+}
+
+/* Welcome banner */
+.welcome-banner {
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0 0 28px;
+    padding: clamp(24px, 4vw, 42px);
+    border-radius: 22px;
+    background: linear-gradient(135deg, #172554, #123c50, #087f6b);
+    border: 1px solid rgba(148, 163, 184, 0.22);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.16);
+}
+
+.welcome-banner h2 {
+    color: #ffffff;
+    font-size: clamp(28px, 4vw, 42px);
+    line-height: 1.2;
+}
+
+.welcome-banner p {
+    color: #dbeafe;
+}
+
+.welcome-eyebrow,
+.dashboard-eyebrow {
+    color: #5eead4;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+}
+
+/* Tablet */
+@media (max-width: 1050px) {
+    .dashboard-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+/* Mobile */
+@media (max-width: 620px) {
+    .dashboard-section,
+    .user-welcome-dashboard {
+        padding: 24px 16px;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .dashboard-card {
+        min-height: 145px;
+        padding: 16px 13px;
+        border-radius: 15px;
+    }
+
+    .dashboard-card-value {
+        font-size: 26px;
+    }
+}
+
+@media (max-width: 360px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
