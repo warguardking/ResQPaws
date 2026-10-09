@@ -216,6 +216,32 @@ function renderDashboardCards(stats) {
 }
 
 
+function refreshWelcomeGreeting() {
+    const box = document.getElementById("userWelcomeDashboard");
+    const heading = document.getElementById("welcomeHeading");
+    const message = document.getElementById("welcomeMessage");
+
+    if (!box) return;
+
+    if (!currentUser) {
+        box.classList.add("hidden");
+        return;
+    }
+
+    const name = currentUser.full_name || "there";
+
+    box.classList.remove("hidden");
+
+    if (heading) {
+        heading.textContent = `Welcome back, ${name}!`;
+    }
+
+    if (message) {
+        message.textContent =
+            "Here is your latest rescue activity and community overview.";
+    }
+}
+
 async function loadDashboardStats() {
     const loggedIn = Boolean(currentUser);
     const guestCards = document.getElementById("dashboardCards");
@@ -811,6 +837,7 @@ function updateAuthUI() {
         if (userWelcomeDashboard) {
             userWelcomeDashboard.classList.toggle("hidden", !isLoggedIn);
         }
+    refreshWelcomeGreeting();
     updateWelcomeDashboard();
     loadDashboardStats();
 

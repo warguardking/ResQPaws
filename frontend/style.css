@@ -3477,3 +3477,53 @@ footer p {
         grid-template-columns: 1fr;
     }
 }
+
+/* Keep logged-in dashboard aligned with the site's page spacing */
+#userWelcomeDashboard {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    padding: 0 7%;
+    margin: 0 auto;
+}
+
+#userWelcomeDashboard .welcome-banner {
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0 0 28px;
+    padding: 30px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #172554, #123c50, #087f6b);
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.15);
+}
+
+#userWelcomeDashboard .welcome-banner h2 {
+    color: #ffffff;
+    margin: 0 0 12px;
+}
+
+#userWelcomeDashboard .welcome-banner p {
+    color: #dbeafe;
+}
+
+#userWelcomeDashboard .user-dashboard-content {
+    width: 100%;
+    margin: 0;
+}
+
+#userWelcomeDashboard .dashboard-grid {
+    width: 100%;
+    margin: 24px 0 0;
+    box-sizing: border-box;
+}
+
+@media (max-width: 600px) {
+    #userWelcomeDashboard {
+        padding: 0 5%;
+    }
+
+    #userWelcomeDashboard .welcome-banner {
+        padding: 22px 18px;
+    }
+}
