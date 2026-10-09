@@ -8,7 +8,7 @@ from urllib.parse import quote
 from fastapi import FastAPI, Depends, HTTPException, UploadFile, File, Form
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi.staticfiles import StaticFiles
-from sqlalchemy import text, inspect
+from sqlalchemy import text, inspect, func
 from sqlalchemy.orm import Session
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -215,6 +215,94 @@ def get_my_profile(
 ):
     return current_user
 
+
+# ================================
+# DASHBOARD LIVE STATISTICS
+# ================================
+
+@app.get("/api/dashboard/public-stats")
+def get_public_dashboard_stats(db: Session = Depends(get_db)):
+    """Public counts visible before login."""
+    return {
+        "public_users": db.query(models.User).filter(
+            models.User.role == "public"
+        ).count(),
+        "volunteers": db.query(models.User).filter(
+            models.User.role == "volunteer"
+        ).count(),
+        "ngos": db.query(models.User).filter(
+            models.User.role == "ngo"
+        ).count(),
+        "vet_hospitals": db.query(models.User).filter(
+            models.User.role == "vet"
+        ).count()
+    }
+
+
+@app.get("/api/dashboard/stats")
+def get_dashboard_stats(
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user)
+):
+    """Live statistics for the logged-in user's role."""
+    user_id = current_user.id
+    role = current_user.role
+
+    announcement_total = db.query(models.Announcement).count()
+
+    announcements_received = db.query(
+        models.Notification
+    ).filter(
+        models.Notification.user_id == user_id,
+        models.Notification.notification_type == "announcement"
+    ).count()
+
+    reported_rescues = db.query(
+        models.RescueRequest
+    ).filter(
+        models.RescueRequest.reporter_id == user_id
+    ).count()
+
+    rescue_requests_received = db.query(
+        models.Notification
+    ).filter(
+        models.Notification.user_id == user_id,
+        models.Notification.notification_type == "rescue_alert"
+    ).count()
+
+    active_rescues = db.query(
+        models.RescueRequest
+    ).filter(
+        models.RescueRequest.accepted_by == user_id,
+        models.RescueRequest.status != "resolved"
+    ).count()
+
+    resolved_history = db.query(
+        models.RescueRequest
+    ).filter(
+        models.RescueRequest.accepted_by == user_id,
+        models.RescueRequest.status == "resolved"
+    ).count()
+
+    nearby_helpers = 0
+    if current_user.latitude is not None and current_user.longitude is not None:
+        nearby_helpers = len(crud.get_nearby_helpers(
+            db,
+            current_user.latitude,
+            current_user.longitude,
+            radius_km=10
+        ))
+
+    return {
+        "role": role,
+        "announcements_total": announcement_total,
+        "announcements_received": announcements_received,
+        "reported_rescues": reported_rescues,
+        "rescue_requests_received": rescue_requests_received,
+        "active_rescues": active_rescues,
+        "resolved_history": resolved_history,
+        "nearby_helpers": nearby_helpers
+    }
 
 @app.post(
     "/api/ai/rescue-guidance",

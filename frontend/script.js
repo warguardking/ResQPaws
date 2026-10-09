@@ -48,6 +48,116 @@ async function apiRequest(endpoint, options = {}) {
 }
 
 
+const dashboardSection = document.getElementById("dashboardSection");
+const dashboardCards = document.getElementById("dashboardCards");
+const dashboardTitle = document.getElementById("dashboardTitle");
+const dashboardSubtitle = document.getElementById("dashboardSubtitle");
+const dashboardError = document.getElementById("dashboardError");
+const dashboardRetryBtn = document.getElementById("dashboardRetryBtn");
+
+function renderDashboardCards(stats) {
+    if (!dashboardCards) return;
+
+    const role = currentUser?.role;
+
+    let cards = [];
+
+    if (!role) {
+        cards = [
+            ["Public Users", stats.public_users, "👥"],
+            ["Volunteers", stats.volunteers, "🤝"],
+            ["NGOs", stats.ngos, "🏢"],
+            ["Vet Hospitals", stats.vet_hospitals, "🏥"]
+        ];
+
+        dashboardTitle.textContent = "ResQPaws Community";
+        dashboardSubtitle.textContent =
+            "Registered members and rescue support across the community.";
+    } else if (role === "public") {
+        cards = [
+            ["Announcements Received", stats.announcements_received, "📢"],
+            ["Nearby Helpers", stats.nearby_helpers, "📍"],
+            ["Reported Rescues", stats.reported_rescues, "🚨"]
+        ];
+
+        dashboardTitle.textContent = "My Dashboard";
+        dashboardSubtitle.textContent = "Your reports and nearby support.";
+    } else if (role === "volunteer") {
+        cards = [
+            ["Announcements Received", stats.announcements_received, "📢"],
+            ["Reported Rescues", stats.reported_rescues, "🚨"],
+            ["Rescue Requests Received", stats.rescue_requests_received, "📨"],
+            ["Active Rescues", stats.active_rescues, "🚑"],
+            ["Resolved History", stats.resolved_history, "✅"]
+        ];
+
+        dashboardTitle.textContent = "Volunteer Dashboard";
+        dashboardSubtitle.textContent = "Your rescue activity at a glance.";
+    } else if (["ngo", "vet"].includes(role)) {
+        cards = [
+            ["Total Announcements", stats.announcements_total, "📢"],
+            ["Announcements Received", stats.announcements_received, "📬"],
+            ["Rescue Requests Received", stats.rescue_requests_received, "📨"],
+            ["Active Rescues", stats.active_rescues, "🚑"],
+            ["Resolved History", stats.resolved_history, "✅"]
+        ];
+
+        dashboardTitle.textContent =
+            role === "ngo" ? "NGO Dashboard" : "Vet Hospital Dashboard";
+        dashboardSubtitle.textContent =
+            "Your announcements and rescue coordination.";
+    }
+
+    dashboardCards.innerHTML = cards.map(function (card) {
+        return `
+            <article class="dashboard-card">
+                <span class="dashboard-card-icon">${card[2]}</span>
+                <p class="dashboard-card-label">${card[0]}</p>
+                <strong class="dashboard-card-value">${card[1] ?? 0}</strong>
+            </article>
+        `;
+    }).join("");
+}
+
+async function loadDashboardStats() {
+    if (!dashboardCards) return;
+
+    if (dashboardError) {
+        dashboardError.classList.add("hidden");
+        dashboardError.textContent = "";
+    }
+    if (dashboardRetryBtn) dashboardRetryBtn.classList.add("hidden");
+
+    dashboardCards.innerHTML =
+        '<div class="dashboard-loading">Loading live statistics...</div>';
+
+    try {
+        const endpoint = currentUser
+            ? "/api/dashboard/stats"
+            : "/api/dashboard/public-stats";
+
+        const stats = await apiRequest(endpoint);
+        renderDashboardCards(stats);
+    } catch (error) {
+        dashboardCards.innerHTML = "";
+
+        if (dashboardError) {
+            dashboardError.textContent =
+                "Live statistics load aagala. Connection check pannitu retry pannunga.";
+            dashboardError.classList.remove("hidden");
+        }
+        if (dashboardRetryBtn) {
+            dashboardRetryBtn.classList.remove("hidden");
+        }
+
+        console.error("Dashboard statistics error:", error);
+    }
+}
+
+if (dashboardRetryBtn) {
+    dashboardRetryBtn.addEventListener("click", loadDashboardStats);
+}
+
 // ================================
 // UI HELPERS
 // ================================
@@ -529,6 +639,7 @@ function updateAuthUI() {
     }
 
     arrangeRolePageOrder(currentUser ? currentUser.role : null);
+    loadDashboardStats();
 
     // =================================
     // AVAILABILITY
@@ -3029,7 +3140,10 @@ updateAuthUI();
 if (token) {
     loadCurrentUser();
 }
-
+// Refresh dashboard counts periodically.
+setInterval(function () {
+    loadDashboardStats();
+}, 30000);
 // ================================
 // CURRENT LOCATION + ADDRESS
 // ================================
