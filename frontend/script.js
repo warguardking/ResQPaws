@@ -143,7 +143,7 @@ async function loadDashboardStats() {
 
         if (dashboardError) {
             dashboardError.textContent =
-                "Live statistics load aagala. Connection check pannitu retry pannunga.";
+                "Live statistics is not loading. Check the connection and retry.";
             dashboardError.classList.remove("hidden");
         }
         if (dashboardRetryBtn) {
@@ -639,6 +639,30 @@ function updateAuthUI() {
     }
 
     arrangeRolePageOrder(currentUser ? currentUser.role : null);
+
+        // Show introductory sections only before login.
+        const introSection = document.getElementById("introSection");
+        const rolesSection = document.getElementById("rolesSection");
+        const howItWorksSection = document.getElementById("howItWorks");
+        const homeSection = document.getElementById("home");
+
+        const isLoggedIn = Boolean(currentUser);
+
+        [introSection, rolesSection, howItWorksSection, homeSection]
+            .forEach(function (section) {
+                if (!section) return;
+
+                section.classList.toggle("hidden", isLoggedIn);
+            });
+
+        // Keep the dashboard visible for guests and logged-in users.
+        const dashboardSection =
+            document.getElementById("dashboardSection");
+
+        if (dashboardSection) {
+            dashboardSection.classList.remove("hidden");
+        }
+
     loadDashboardStats();
 
     // =================================

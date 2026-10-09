@@ -3106,49 +3106,59 @@ footer p {
     padding-bottom: 48px;
 }
 
+
+/* Dashboard cards: one row on desktop */
 .dashboard-grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 18px;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 14px;
+    width: 100%;
     margin-top: 28px;
 }
 
 .dashboard-card {
-    background: var(--card-bg, #ffffff);
-    border: 1px solid rgba(100, 116, 139, 0.2);
+    min-width: 0;
+    padding: 20px 16px;
     border-radius: 18px;
-    padding: 24px;
-    min-height: 145px;
-    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
-}
-
-.dashboard-card-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    background: rgba(16, 185, 129, 0.12);
-    font-size: 23px;
-    margin-bottom: 12px;
+    overflow-wrap: anywhere;
 }
 
 .dashboard-card-label {
-    margin: 0 0 8px;
-    font-size: 14px;
-    line-height: 1.5;
-    color: var(--text-secondary, #64748b);
+    font-size: 13px;
+    line-height: 1.45;
 }
 
 .dashboard-card-value {
-    display: block;
-    font-size: clamp(26px, 3vw, 36px);
+    font-size: clamp(23px, 2.2vw, 34px);
     line-height: 1.2;
-    font-weight: 800;
-    color: var(--text-primary, #0f172a);
-    overflow-wrap: anywhere;
 }
+
+/* Tablet: 3 cards per row */
+@media (max-width: 1000px) {
+    .dashboard-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+/* Mobile: 2 cards per row */
+@media (max-width: 600px) {
+    .dashboard-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .dashboard-card {
+        padding: 16px 12px;
+    }
+}
+
+/* Very small mobile screens */
+@media (max-width: 360px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
 
 .dashboard-loading {
     grid-column: 1 / -1;
@@ -3164,22 +3174,4 @@ footer p {
 
 #dashboardRetryBtn {
     margin-top: 10px;
-}
-
-@media (max-width: 760px) {
-    .dashboard-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 12px;
-    }
-
-    .dashboard-card {
-        padding: 17px;
-        min-height: 130px;
-    }
-}
-
-@media (max-width: 420px) {
-    .dashboard-grid {
-        grid-template-columns: 1fr;
-    }
 }
