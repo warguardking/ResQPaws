@@ -658,7 +658,7 @@ document
             }
         }
     });
-
+let isRegistering = false;
 // ================================
 // REGISTER
 // ================================
@@ -668,6 +668,26 @@ document
     .addEventListener("submit", async function (event) {
 
         event.preventDefault();
+
+        if (isRegistering) return;
+        isRegistering = true;
+
+        const registerButton =
+            document.getElementById("registerSubmitBtn");
+        const registerButtonText =
+            document.getElementById("registerBtnText");
+        const registerButtonSpinner =
+            document.getElementById("registerBtnSpinner");
+
+        if (registerButton) registerButton.disabled = true;
+
+        if (registerButtonText) {
+            registerButtonText.textContent = "Creating account...";
+        }
+
+        if (registerButtonSpinner) {
+            registerButtonSpinner.classList.remove("hidden");
+        }
 
         const full_name =
             document.getElementById("registerName").value;
@@ -790,6 +810,22 @@ document
                 error.message,
                 false
             );
+        }
+
+        finally {
+            isRegistering = false;
+
+            if (registerButton) {
+                registerButton.disabled = false;
+            }
+
+            if (registerButtonText) {
+                registerButtonText.textContent = "Create Account";
+            }
+
+            if (registerButtonSpinner) {
+                registerButtonSpinner.classList.add("hidden");
+            }
         }
     });
 function setupPasswordToggle(toggleId, inputId) {
