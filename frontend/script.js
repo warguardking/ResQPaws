@@ -577,24 +577,40 @@ function updateAuthUI() {
 
 }
 
-// ================================
-// LOGIN
-// ================================
+let isLoggingIn = false;
+ // ================================
+ // LOGIN
+ // ================================
 
 document
     .getElementById("loginForm")
     .addEventListener("submit", async function (event) {
-
         event.preventDefault();
+
+        if (isLoggingIn) return;
+        isLoggingIn = true;
+
+        const loginButton =
+            document.getElementById("loginSubmitBtn");
+        const loginButtonText =
+            document.getElementById("loginBtnText");
+        const loginButtonSpinner =
+            document.getElementById("loginBtnSpinner");
+
+        if (loginButton) loginButton.disabled = true;
+        if (loginButtonText) {
+            loginButtonText.textContent = "Logging in...";
+        }
+        if (loginButtonSpinner) {
+            loginButtonSpinner.classList.remove("hidden");
+        }
 
         const email =
             document.getElementById("loginEmail").value;
-
         const password =
             document.getElementById("loginPassword").value;
 
         try {
-
             const data = await apiRequest(
                 "/api/users/login",
                 {
@@ -622,15 +638,26 @@ document
             );
 
         } catch (error) {
-
             showMessage(
                 "loginMessage",
                 error.message,
                 false
             );
+
+        } finally {
+            isLoggingIn = false;
+
+            if (loginButton) {
+                loginButton.disabled = false;
+            }
+            if (loginButtonText) {
+                loginButtonText.textContent = "Login";
+            }
+            if (loginButtonSpinner) {
+                loginButtonSpinner.classList.add("hidden");
+            }
         }
     });
-
 
 // ================================
 // REGISTER
@@ -765,72 +792,54 @@ document
             );
         }
     });
-const toggleRegisterPassword =
-    document.getElementById("toggleRegisterPassword");
+function setupPasswordToggle(toggleId, inputId) {
+    const toggleButton = document.getElementById(toggleId);
+    const passwordInput = document.getElementById(inputId);
 
-const registerPassword =
-    document.getElementById("registerPassword");
+    if (!toggleButton || !passwordInput) return;
 
-if (toggleRegisterPassword && registerPassword) {
+    toggleButton.addEventListener("click", function () {
+        const isPassword = passwordInput.type === "password";
 
-    toggleRegisterPassword.addEventListener(
-        "click",
-        function () {
+        passwordInput.type = isPassword ? "text" : "password";
 
-            if (registerPassword.type === "password") {
+        toggleButton.setAttribute(
+            "aria-label",
+            isPassword ? "Hide password" : "Show password"
+        );
 
-                registerPassword.type = "text";
-
-                toggleRegisterPassword.textContent =
-                    "🙈";
-
-            } else {
-
-                registerPassword.type = "password";
-
-                toggleRegisterPassword.textContent =
-                    "👁️";
-            }
-        }
-    );
+        toggleButton.innerHTML = isPassword
+            ? `
+                <svg class="eye-icon eye-off-icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M3 3l18 18"></path>
+                    <path d="M10.6 5.1A10.8 10.8 0 0 1 12 5c6.5 0 10 7 10 7a17.4 17.4 0 0 1-3.1 3.8"></path>
+                    <path d="M6.6 6.6C3.8 8.3 2 12 2 12s3.5 7 10 7a10.8 10.8 0 0 0 4.1-.8"></path>
+                    <path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"></path>
+                </svg>
+            `
+            : `
+                <svg class="eye-icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"></path>
+                    <circle cx="12" cy="12" r="2.5"></circle>
+                </svg>
+            `;
+    });
 }
-const toggleRegisterConfirmPassword =
-    document.getElementById("toggleRegisterConfirmPassword");
 
-const registerConfirmPassword =
-    document.getElementById("registerConfirmPassword");
+setupPasswordToggle(
+    "toggleLoginPassword",
+    "loginPassword"
+);
 
-if (
-    toggleRegisterConfirmPassword &&
-    registerConfirmPassword
-) {
+setupPasswordToggle(
+    "toggleRegisterPassword",
+    "registerPassword"
+);
 
-    toggleRegisterConfirmPassword.addEventListener(
-        "click",
-        function () {
-
-            if (
-                registerConfirmPassword.type ===
-                "password"
-            ) {
-
-                registerConfirmPassword.type =
-                    "text";
-
-                toggleRegisterConfirmPassword.textContent =
-                    "🙈";
-
-            } else {
-
-                registerConfirmPassword.type =
-                    "password";
-
-                toggleRegisterConfirmPassword.textContent =
-                    "👁️";
-            }
-        }
-    );
-}
+setupPasswordToggle(
+    "toggleRegisterConfirmPassword",
+    "registerConfirmPassword"
+);
 // ================================
 // LOAD CURRENT USER
 // ================================

@@ -3045,3 +3045,54 @@ footer p {
     font-size: 18px;
     padding: 6px;
 }
+.password-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.eye-icon {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.password-toggle:hover {
+    opacity: 0.75;
+}
+
+.eye-off-icon {
+    opacity: 0.9;
+}
+
+/* Login loading spinner */
+#loginSubmitBtn:disabled {
+    opacity: 0.75;
+    cursor: not-allowed;
+}
+
+.button-spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-left: 8px;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: login-spin 0.7s linear infinite;
+    vertical-align: middle;
+}
+
+.button-spinner.hidden {
+    display: none;
+}
+
+@keyframes login-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
