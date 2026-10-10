@@ -3099,12 +3099,16 @@ footer p {
 
 
 /* =========================================
-   RESQPAWS DASHBOARD - CARD DESIGN
+   RESQPAWS DASHBOARD
 ========================================= */
 
-.dashboard-section {
+.dashboard-section,
+.user-welcome-dashboard {
+    box-sizing: border-box;
     width: 100%;
-    padding: 48px 0;
+    max-width: 100%;
+    padding: 48px 7%;
+    margin: 0 auto;
 }
 
 .dashboard-section .section-heading {
@@ -3116,253 +3120,24 @@ footer p {
     grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 18px;
     width: 100%;
-    margin-top: 28px;
+    margin: 24px 0 0;
+    box-sizing: border-box;
     align-items: stretch;
 }
 
 .dashboard-card {
-    position: relative;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     min-width: 0;
-    min-height: 170px;
-    padding: 22px 20px;
-    overflow-wrap: anywhere;
-
-    background: var(--card-bg, #ffffff);
-    border: 1px solid rgba(148, 163, 184, 0.25);
-    border-radius: 20px;
-    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.07);
-
-    transition:
-        transform 0.22s ease,
-        box-shadow 0.22s ease,
-        border-color 0.22s ease;
-}
-
-.dashboard-card:hover {
-    transform: translateY(-4px);
-    border-color: rgba(16, 185, 129, 0.45);
-    box-shadow: 0 14px 30px rgba(15, 23, 42, 0.12);
-}
-
-.dashboard-card-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-
-    width: 46px;
-    height: 46px;
-    margin-bottom: 16px;
-
-    border-radius: 14px;
-    background: rgba(16, 185, 129, 0.12);
-    font-size: 23px;
-}
-
-.dashboard-card-label {
-    margin: 0 0 10px;
-    color: var(--text-secondary, #64748b);
-    font-size: 13px;
-    font-weight: 500;
-    line-height: 1.5;
-}
-
-.dashboard-card-value {
-    display: block;
-    margin-top: auto;
-
-    color: var(--text-primary, #0f172a);
-    font-size: clamp(27px, 2.4vw, 36px);
-    font-weight: 800;
-    line-height: 1.2;
-    letter-spacing: -0.5px;
-    overflow-wrap: anywhere;
-}
-
-.dashboard-loading {
-    grid-column: 1 / -1;
-    padding: 30px 20px;
-    text-align: center;
-    color: var(--text-secondary, #64748b);
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px dashed rgba(148, 163, 184, 0.4);
-    border-radius: 16px;
-}
-
-.dashboard-error {
-    margin-top: 16px;
-    color: #dc2626;
-    font-size: 14px;
-}
-
-#dashboardRetryBtn {
-    margin-top: 12px;
-}
-
-/* =========================================
-   LOGGED-IN HOME + WELCOME DASHBOARD
-========================================= */
-
-.user-welcome-dashboard {
-    width: 100%;
-    padding: 30px 0 48px;
-}
-
-.welcome-banner {
-    position: relative;
-    padding: clamp(24px, 4vw, 42px);
-    margin-bottom: 30px;
-    overflow: hidden;
-
-    color: #ffffff;
-    background: linear-gradient(135deg, #172554 0%, #123c50 55%, #087f6b 100%);
-    border-radius: 24px;
-    box-shadow: 0 14px 35px rgba(15, 23, 42, 0.16);
-}
-
-.welcome-eyebrow,
-.dashboard-eyebrow {
-    margin: 0 0 10px;
-    font-size: 12px;
-    font-weight: 800;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-}
-
-.welcome-eyebrow {
-    color: #a7f3d0;
-}
-
-.welcome-banner h2 {
-    margin: 0 0 12px;
-    color: #ffffff;
-    font-size: clamp(28px, 4vw, 42px);
-    line-height: 1.2;
-}
-
-.welcome-banner p:last-child {
-    margin-bottom: 0;
-    color: rgba(255, 255, 255, 0.88);
-    line-height: 1.7;
-}
-
-.user-dashboard-content {
-    width: 100%;
-}
-
-.user-dashboard-content > h2 {
-    margin: 0 0 8px;
-    font-size: clamp(24px, 3vw, 32px);
-}
-
-.user-dashboard-content > p:not(.dashboard-eyebrow) {
-    margin-top: 0;
-    color: var(--text-secondary, #64748b);
-    line-height: 1.6;
-}
-
-.dashboard-eyebrow {
-    color: #059669;
-}
-
-/* Tablet */
-@media (max-width: 1050px) {
-    .dashboard-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 16px;
-    }
-
-    .dashboard-card {
-        min-height: 155px;
-    }
-}
-
-/* Mobile */
-@media (max-width: 620px) {
-    .dashboard-section,
-    .user-welcome-dashboard {
-        padding-top: 24px;
-        padding-bottom: 30px;
-    }
-
-    .dashboard-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 12px;
-        margin-top: 20px;
-    }
-
-    .dashboard-card {
-        min-height: 145px;
-        padding: 16px 14px;
-        border-radius: 16px;
-    }
-
-    .dashboard-card-icon {
-        width: 40px;
-        height: 40px;
-        margin-bottom: 12px;
-        border-radius: 12px;
-        font-size: 21px;
-    }
-
-    .dashboard-card-label {
-        font-size: 12px;
-    }
-
-    .dashboard-card-value {
-        font-size: 27px;
-    }
-
-    .welcome-banner {
-        padding: 25px 20px;
-        margin-bottom: 25px;
-        border-radius: 20px;
-    }
-}
-
-/* Very small phones */
-@media (max-width: 360px) {
-    .dashboard-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .dashboard-card {
-        min-height: 130px;
-    }
-}
-
-/* ResQPaws themed dashboard */
-.dashboard-section,
-.user-welcome-dashboard {
-    box-sizing: border-box;
-    width: 100%;
-    max-width: 100%;
-    padding: 36px clamp(16px, 4vw, 48px);
-    margin: 0 auto;
-}
-
-.dashboard-grid {
-    display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 18px;
-    width: 100%;
-    margin: 24px 0 0;
-    box-sizing: border-box;
-}
-
-.dashboard-card {
-    box-sizing: border-box;
-    min-width: 0;
     min-height: 165px;
     padding: 22px;
-    border-radius: 18px;
+    overflow-wrap: anywhere;
 
-    /* Dark ResQPaws theme */
     background: linear-gradient(145deg, #172554, #111b40);
     border: 1px solid rgba(148, 163, 184, 0.25);
+    border-radius: 18px;
     box-shadow: 0 10px 26px rgba(0, 0, 0, 0.16);
 
     transition: transform 0.2s ease, border-color 0.2s ease;
@@ -3377,6 +3152,7 @@ footer p {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
     width: 44px;
     height: 44px;
     margin-bottom: 14px;
@@ -3389,13 +3165,15 @@ footer p {
     margin: 0 0 10px;
     color: #cbd5e1;
     font-size: 13px;
+    font-weight: 500;
     line-height: 1.5;
 }
 
 .dashboard-card-value {
     display: block;
+    margin-top: auto;
     color: #ffffff;
-    font-size: clamp(27px, 2.5vw, 36px);
+    font-size: clamp(27px, 2.4vw, 36px);
     line-height: 1.2;
     font-weight: 800;
     overflow-wrap: anywhere;
@@ -3411,30 +3189,33 @@ footer p {
     border-radius: 16px;
 }
 
+.dashboard-error {
+    margin-top: 16px;
+    color: #dc2626;
+    font-size: 14px;
+}
+
+#dashboardRetryBtn {
+    margin-top: 12px;
+}
+
 /* Welcome banner */
+
 .welcome-banner {
     box-sizing: border-box;
     width: 100%;
     margin: 0 0 28px;
     padding: clamp(24px, 4vw, 42px);
-    border-radius: 22px;
-    background: linear-gradient(135deg, #172554, #123c50, #087f6b);
-    border: 1px solid rgba(148, 163, 184, 0.22);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.16);
-}
-
-.welcome-banner h2 {
     color: #ffffff;
-    font-size: clamp(28px, 4vw, 42px);
-    line-height: 1.2;
-}
-
-.welcome-banner p {
-    color: #dbeafe;
+    background: linear-gradient(135deg, #172554, #123c50, #087f6b);
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    border-radius: 22px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.16);
 }
 
 .welcome-eyebrow,
 .dashboard-eyebrow {
+    margin: 0 0 10px;
     color: #5eead4;
     font-size: 12px;
     font-weight: 800;
@@ -3442,23 +3223,64 @@ footer p {
     text-transform: uppercase;
 }
 
+.welcome-banner h2 {
+    margin: 0 0 12px;
+    color: #ffffff;
+    font-size: clamp(28px, 4vw, 42px);
+    line-height: 1.2;
+}
+
+.welcome-banner p {
+    color: #dbeafe;
+    line-height: 1.7;
+}
+
+.welcome-banner p:last-child {
+    margin-bottom: 0;
+}
+
+.user-dashboard-content {
+    width: 100%;
+    margin: 0;
+}
+
+.user-dashboard-content > h2 {
+    margin: 0 0 8px;
+    color: var(--text-primary, #0f172a);
+    font-size: clamp(24px, 3vw, 32px);
+}
+
+.user-dashboard-content > p:not(.dashboard-eyebrow) {
+    margin-top: 0;
+    color: var(--text-secondary, #64748b);
+    line-height: 1.6;
+}
+
 /* Tablet */
+
 @media (max-width: 1050px) {
     .dashboard-grid {
         grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+    }
+
+    .dashboard-card {
+        min-height: 155px;
     }
 }
 
 /* Mobile */
+
 @media (max-width: 620px) {
     .dashboard-section,
     .user-welcome-dashboard {
-        padding: 24px 16px;
+        padding: 28px 5%;
     }
 
     .dashboard-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 12px;
+        margin-top: 20px;
     }
 
     .dashboard-card {
@@ -3467,63 +3289,36 @@ footer p {
         border-radius: 15px;
     }
 
+    .dashboard-card-icon {
+        width: 40px;
+        height: 40px;
+        margin-bottom: 12px;
+        border-radius: 12px;
+        font-size: 21px;
+    }
+
+    .dashboard-card-label {
+        font-size: 12px;
+    }
+
     .dashboard-card-value {
         font-size: 26px;
     }
+
+    .welcome-banner {
+        padding: 22px 18px;
+        border-radius: 18px;
+    }
 }
+
+/* Very small phones */
 
 @media (max-width: 360px) {
     .dashboard-grid {
         grid-template-columns: 1fr;
     }
-}
 
-/* Keep logged-in dashboard aligned with the site's page spacing */
-#userWelcomeDashboard {
-    box-sizing: border-box;
-    width: 100%;
-    max-width: 100%;
-    padding: 0 7%;
-    margin: 0 auto;
-}
-
-#userWelcomeDashboard .welcome-banner {
-    box-sizing: border-box;
-    width: 100%;
-    margin: 0 0 28px;
-    padding: 30px;
-    border-radius: 20px;
-    background: linear-gradient(135deg, #172554, #123c50, #087f6b);
-    border: 1px solid rgba(148, 163, 184, 0.25);
-    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.15);
-}
-
-#userWelcomeDashboard .welcome-banner h2 {
-    color: #ffffff;
-    margin: 0 0 12px;
-}
-
-#userWelcomeDashboard .welcome-banner p {
-    color: #dbeafe;
-}
-
-#userWelcomeDashboard .user-dashboard-content {
-    width: 100%;
-    margin: 0;
-}
-
-#userWelcomeDashboard .dashboard-grid {
-    width: 100%;
-    margin: 24px 0 0;
-    box-sizing: border-box;
-}
-
-@media (max-width: 600px) {
-    #userWelcomeDashboard {
-        padding: 0 5%;
-    }
-
-    #userWelcomeDashboard .welcome-banner {
-        padding: 22px 18px;
+    .dashboard-card {
+        min-height: 130px;
     }
 }
