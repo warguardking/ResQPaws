@@ -55,246 +55,7 @@ const dashboardSubtitle = document.getElementById("dashboardSubtitle");
 const dashboardError = document.getElementById("dashboardError");
 const dashboardRetryBtn = document.getElementById("dashboardRetryBtn");
 
-function renderDashboardCards(stats) {
     
-function renderDashboardCards(stats) {
-    const role = currentUser?.role;
-
-    const loggedIn = Boolean(currentUser);
-    const targetCards = loggedIn
-        ? document.getElementById("userDashboardCards")
-        : document.getElementById("dashboardCards");
-
-    if (!targetCards) return;
-
-    if (loggedIn) {
-        const welcomeBox =
-            document.getElementById("userWelcomeDashboard");
-        const welcomeHeading =
-            document.getElementById("welcomeHeading");
-        const welcomeMessage =
-            document.getElementById("welcomeMessage");
-        const title =
-            document.getElementById("userDashboardTitle");
-        const subtitle =
-            document.getElementById("userDashboardSubtitle");
-
-        const username =
-            currentUser.username ||
-            currentUser.full_name ||
-            currentUser.name ||
-            "there";
-
-        if (welcomeBox) welcomeBox.classList.remove("hidden");
-        if (welcomeHeading) {
-            welcomeHeading.textContent = `Welcome back, ${username}!`;
-        }
-        if (welcomeMessage) {
-            welcomeMessage.textContent =
-                "Here is your ResQPaws activity and rescue overview.";
-        }
-
-        if (title) {
-            title.textContent =
-                role === "public" ? "Your Dashboard" :
-                role === "volunteer" ? "Volunteer Dashboard" :
-                role === "ngo" ? "NGO Dashboard" :
-                role === "vet" ? "Vet Hospital Dashboard" :
-                "Your Dashboard";
-        }
-
-        if (subtitle) {
-            subtitle.textContent =
-                "Your latest statistics at a glance.";
-        }
-    }
-
-    let cards = [];
-
-    if (!loggedIn) {
-        cards = [
-            ["Public Users", stats.public_users, "👥"],
-            ["Volunteers", stats.volunteers, "🤝"],
-            ["NGOs", stats.ngos, "🏢"],
-            ["Vet Hospitals", stats.vet_hospitals, "🏥"]
-        ];
-    } else if (role === "public") {
-        cards = [
-            ["Announcements Received", stats.announcements_received, "📢"],
-            ["Nearby Helpers", stats.nearby_helpers, "📍"],
-            ["Reported Rescues", stats.reported_rescues, "🚨"]
-        ];
-    } else if (role === "volunteer") {
-        cards = [
-            ["Announcements Received", stats.announcements_received, "📢"],
-            ["Reported Rescues", stats.reported_rescues, "🚨"],
-            ["Rescue Requests Received", stats.rescue_requests_received, "📨"],
-            ["Active Rescues", stats.active_rescues, "🚑"],
-            ["Resolved History", stats.resolved_history, "✅"]
-        ];
-    } else if (role === "ngo" || role === "vet") {
-        cards = [
-            ["Total Announcements", stats.announcements_total, "📢"],
-            ["Announcements Received", stats.announcements_received, "📬"],
-            ["Rescue Requests Received", stats.rescue_requests_received, "📨"],
-            ["Active Rescues", stats.active_rescues, "🚑"],
-            ["Resolved History", stats.resolved_history, "✅"]
-        ];
-    }
-
-    targetCards.innerHTML = cards.map(function (card) {
-        return `
-            <article class="dashboard-card">
-                <span class="dashboard-card-icon">${card[2]}</span>
-                <p class="dashboard-card-label">${card[0]}</p>
-                <strong class="dashboard-card-value">${card[1] ?? 0}</strong>
-            </article>
-        `;
-    }).join("");
-}
-
-
-    const role = currentUser?.role;
-
-    let cards = [];
-
-    if (!role) {
-        cards = [
-            ["Public Users", stats.public_users, "👥"],
-            ["Volunteers", stats.volunteers, "🤝"],
-            ["NGOs", stats.ngos, "🏢"],
-            ["Vet Hospitals", stats.vet_hospitals, "🏥"]
-        ];
-
-        dashboardTitle.textContent = "ResQPaws Community";
-        dashboardSubtitle.textContent =
-            "Registered members and rescue support across the community.";
-    } else if (role === "public") {
-        cards = [
-            ["Announcements Received", stats.announcements_received, "📢"],
-            ["Nearby Helpers", stats.nearby_helpers, "📍"],
-            ["Reported Rescues", stats.reported_rescues, "🚨"]
-        ];
-
-        dashboardTitle.textContent = "My Dashboard";
-        dashboardSubtitle.textContent = "Your reports and nearby support.";
-    } else if (role === "volunteer") {
-        cards = [
-            ["Announcements Received", stats.announcements_received, "📢"],
-            ["Reported Rescues", stats.reported_rescues, "🚨"],
-            ["Rescue Requests Received", stats.rescue_requests_received, "📨"],
-            ["Active Rescues", stats.active_rescues, "🚑"],
-            ["Resolved History", stats.resolved_history, "✅"]
-        ];
-
-        dashboardTitle.textContent = "Volunteer Dashboard";
-        dashboardSubtitle.textContent = "Your rescue activity at a glance.";
-    } else if (["ngo", "vet"].includes(role)) {
-        cards = [
-            ["Total Announcements", stats.announcements_total, "📢"],
-            ["Announcements Received", stats.announcements_received, "📬"],
-            ["Rescue Requests Received", stats.rescue_requests_received, "📨"],
-            ["Active Rescues", stats.active_rescues, "🚑"],
-            ["Resolved History", stats.resolved_history, "✅"]
-        ];
-
-        dashboardTitle.textContent =
-            role === "ngo" ? "NGO Dashboard" : "Vet Hospital Dashboard";
-        dashboardSubtitle.textContent =
-            "Your announcements and rescue coordination.";
-    }
-
-    dashboardCards.innerHTML = cards.map(function (card) {
-        return `
-            <article class="dashboard-card">
-                <span class="dashboard-card-icon">${card[2]}</span>
-                <p class="dashboard-card-label">${card[0]}</p>
-                <strong class="dashboard-card-value">${card[1] ?? 0}</strong>
-            </article>
-        `;
-    }).join("");
-}
-
-
-function refreshWelcomeGreeting() {
-    const box = document.getElementById("userWelcomeDashboard");
-    const heading = document.getElementById("welcomeHeading");
-    const message = document.getElementById("welcomeMessage");
-
-    if (!box) return;
-
-    if (!currentUser) {
-        box.classList.add("hidden");
-        return;
-    }
-
-    const name = currentUser.full_name || "there";
-
-    box.classList.remove("hidden");
-
-    if (heading) {
-        heading.textContent = `Welcome back, ${name}!`;
-    }
-
-    if (message) {
-        message.textContent =
-            "Here is your latest rescue activity and community overview.";
-    }
-}
-
-async function loadDashboardStats() {
-    const loggedIn = Boolean(currentUser);
-    const guestCards = document.getElementById("dashboardCards");
-    const userCards = document.getElementById("userDashboardCards");
-    const activeCards = loggedIn ? userCards : guestCards;
-
-    if (!activeCards) return;
-
-    const dashboardError = document.getElementById("dashboardError");
-    const dashboardRetryBtn = document.getElementById("dashboardRetryBtn");
-
-    if (dashboardError) {
-        dashboardError.classList.add("hidden");
-        dashboardError.textContent = "";
-    }
-
-    if (dashboardRetryBtn) {
-        dashboardRetryBtn.classList.add("hidden");
-    }
-
-    activeCards.innerHTML =
-        '<div class="dashboard-loading">Loading live statistics...</div>';
-
-    try {
-        const endpoint = loggedIn
-            ? "/api/dashboard/stats"
-            : "/api/dashboard/public-stats";
-
-        const stats = await apiRequest(endpoint);
-        renderDashboardCards(stats);
-
-    } catch (error) {
-        activeCards.innerHTML = "";
-
-        if (dashboardError) {
-            dashboardError.textContent =
-                "Live statistics load aagala. Connection check pannitu retry pannunga.";
-            dashboardError.classList.remove("hidden");
-        }
-
-        if (dashboardRetryBtn) {
-            dashboardRetryBtn.classList.remove("hidden");
-        }
-
-        console.error("Dashboard statistics error:", error);
-    }
-}
-
-
-if (dashboardRetryBtn) {
-    dashboardRetryBtn.addEventListener("click", loadDashboardStats);
-}
-
 // ================================
 // UI HELPERS
 // ================================
@@ -414,37 +175,6 @@ function updateProviderProfile() {
         currentUser.emergency_available
             ? "Available"
             : "Not available";
-}
-
-function updateWelcomeDashboard() {
-    const welcomeBox = document.getElementById("userWelcomeDashboard");
-    const welcomeHeading = document.getElementById("welcomeHeading");
-    const welcomeMessage = document.getElementById("welcomeMessage");
-
-    if (!welcomeBox) return;
-
-    if (!currentUser) {
-        welcomeBox.classList.add("hidden");
-        return;
-    }
-
-    const username =
-        currentUser.username ||
-        currentUser.full_name ||
-        currentUser.name ||
-        currentUser.email ||
-        "there";
-
-    welcomeBox.classList.remove("hidden");
-
-    if (welcomeHeading) {
-        welcomeHeading.textContent = `Welcome back, ${username}!`;
-    }
-
-    if (welcomeMessage) {
-        welcomeMessage.textContent =
-            "Your rescue activity and community statistics are ready below.";
-    }
 }
 
 function updateAuthUI() {
@@ -837,7 +567,6 @@ function updateAuthUI() {
         if (userWelcomeDashboard) {
             userWelcomeDashboard.classList.toggle("hidden", !isLoggedIn);
         }
-    refreshWelcomeGreeting();
     updateWelcomeDashboard();
     loadDashboardStats();
 
@@ -1223,6 +952,175 @@ async function loadCurrentUser() {
         updateAuthUI();
     }
 }
+function updateWelcomeDashboard() {
+    const welcomeBox = document.getElementById(
+        "userWelcomeDashboard"
+    );
+
+    const welcomeHeading = document.getElementById(
+        "welcomeHeading"
+    );
+
+    const welcomeMessage = document.getElementById(
+        "welcomeMessage"
+    );
+
+    const title = document.getElementById(
+        "userDashboardTitle"
+    );
+
+    const subtitle = document.getElementById(
+        "userDashboardSubtitle"
+    );
+
+    if (!welcomeBox) return;
+
+    const loggedIn = Boolean(currentUser);
+
+    welcomeBox.classList.toggle("hidden", !loggedIn);
+
+    if (!loggedIn) return;
+
+    const name =
+        currentUser.full_name ||
+        currentUser.username ||
+        currentUser.name ||
+        "there";
+
+    const role = currentUser.role;
+
+    if (welcomeHeading) {
+        welcomeHeading.textContent = `Welcome back, ${name}!`;
+    }
+
+    if (welcomeMessage) {
+        welcomeMessage.textContent =
+            "Here is your latest rescue activity and community overview.";
+    }
+
+    if (title) {
+        const titles = {
+            public: "Your Dashboard",
+            volunteer: "Volunteer Dashboard",
+            ngo: "NGO Dashboard",
+            vet: "Vet Hospital Dashboard"
+        };
+
+        title.textContent = titles[role] || "Your Dashboard";
+    }
+
+    if (subtitle) {
+        subtitle.textContent =
+            "Your latest statistics at a glance.";
+    }
+}
+
+function renderDashboardCards(stats) {
+    const role = currentUser?.role;
+
+    const targetCards = document.getElementById(
+        currentUser ? "userDashboardCards" : "dashboardCards"
+    );
+
+    if (!targetCards || !stats) return;
+
+    let cards = [];
+
+    if (!currentUser) {
+        cards = [
+            ["Public Users", stats.public_users, "👥"],
+            ["Volunteers", stats.volunteers, "🤝"],
+            ["NGOs", stats.ngos, "🏢"],
+            ["Vet Hospitals", stats.vet_hospitals, "🏥"]
+        ];
+    } else if (role === "public") {
+        cards = [
+            ["Announcements Received", stats.announcements_received, "📢"],
+            ["Nearby Helpers", stats.nearby_helpers, "📍"],
+            ["Reported Rescues", stats.reported_rescues, "🚨"]
+        ];
+    } else if (role === "volunteer") {
+        cards = [
+            ["Announcements Received", stats.announcements_received, "📢"],
+            ["Reported Rescues", stats.reported_rescues, "🚨"],
+            ["Rescue Requests Received", stats.rescue_requests_received, "📨"],
+            ["Active Rescues", stats.active_rescues, "🚑"],
+            ["Resolved History", stats.resolved_history, "✅"]
+        ];
+    } else if (role === "ngo" || role === "vet") {
+        cards = [
+            ["Total Announcements", stats.announcements_total, "📢"],
+            ["Announcements Received", stats.announcements_received, "📬"],
+            ["Rescue Requests Received", stats.rescue_requests_received, "📨"],
+            ["Active Rescues", stats.active_rescues, "🚑"],
+            ["Resolved History", stats.resolved_history, "✅"]
+        ];
+    }
+
+    targetCards.innerHTML = cards.map(function (card) {
+        return `
+            <article class="dashboard-card">
+                <span class="dashboard-card-icon">${card[2]}</span>
+                <p class="dashboard-card-label">${card[0]}</p>
+                <strong class="dashboard-card-value">${card[1] ?? 0}</strong>
+            </article>
+        `;
+    }).join("");
+}
+
+async function loadDashboardStats() {
+    const loggedIn = Boolean(currentUser);
+    const guestCards = document.getElementById("dashboardCards");
+    const userCards = document.getElementById("userDashboardCards");
+    const activeCards = loggedIn ? userCards : guestCards;
+
+    if (!activeCards) return;
+
+    const dashboardError = document.getElementById("dashboardError");
+    const dashboardRetryBtn = document.getElementById("dashboardRetryBtn");
+
+    if (dashboardError) {
+        dashboardError.classList.add("hidden");
+        dashboardError.textContent = "";
+    }
+
+    if (dashboardRetryBtn) {
+        dashboardRetryBtn.classList.add("hidden");
+    }
+
+    activeCards.innerHTML =
+        '<div class="dashboard-loading">Loading live statistics...</div>';
+
+    try {
+        const endpoint = loggedIn
+            ? "/api/dashboard/stats"
+            : "/api/dashboard/public-stats";
+
+        const stats = await apiRequest(endpoint);
+        renderDashboardCards(stats);
+
+    } catch (error) {
+        activeCards.innerHTML = "";
+
+        if (dashboardError) {
+            dashboardError.textContent =
+                "Live statistics load aagala. Connection check pannitu retry pannunga.";
+            dashboardError.classList.remove("hidden");
+        }
+
+        if (dashboardRetryBtn) {
+            dashboardRetryBtn.classList.remove("hidden");
+        }
+
+        console.error("Dashboard statistics error:", error);
+    }
+}
+
+
+if (dashboardRetryBtn) {
+    dashboardRetryBtn.addEventListener("click", loadDashboardStats);
+}
+
 
 async function loadNotifications() {
 
