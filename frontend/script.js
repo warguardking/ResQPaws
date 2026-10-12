@@ -207,6 +207,11 @@ function updateAuthUI() {
 
     if (!currentUser) {
 
+        const guestMenu = document.getElementById("guestSidebarMenu");
+        const loggedMenu = document.getElementById("navMenu");
+        if (guestMenu) guestMenu.classList.remove("hidden");
+        if (loggedMenu) loggedMenu.classList.add("hidden");
+
         if (guestAuthButtons) {
             guestAuthButtons.classList.remove("hidden");
         }
@@ -227,6 +232,11 @@ function updateAuthUI() {
     // =================================
 
     else {
+
+        const guestMenu = document.getElementById("guestSidebarMenu");
+        const loggedMenu = document.getElementById("navMenu");
+        if (guestMenu) guestMenu.classList.add("hidden");
+        if (loggedMenu) loggedMenu.classList.remove("hidden");
 
         volunteerAvailability =
             currentUser.is_available === true;
@@ -458,9 +468,7 @@ function updateAuthUI() {
 
         if (menuReport && canReport) {
             menuReport.style.display = "block";
-            menuReport.textContent = currentUser.role === "volunteer"
-                ? "🚨 Report Rescue"
-                : "🚨 Report an Animal";
+            menuReport.textContent = "🚨 Report an Animal";
         }
 
         // NGO/Vet do not report animals, so remove the Home-page report button too.
@@ -475,6 +483,7 @@ function updateAuthUI() {
 
         if (currentUser.role === "public") {
             if (menuNearbyHelpers) menuNearbyHelpers.style.display = "block";
+            if (menuTrackReports) menuTrackReports.style.display = "block";
             if (menuHistory) {
                 menuHistory.textContent = "📋 My Reports";
                 menuHistory.href = "#history";
@@ -522,6 +531,7 @@ function updateAuthUI() {
         requestBrowserNotificationPermission();
         loadNotifications();
         loadAnnouncements();
+        setTimeout(syncNotificationPage, 0);
 
         if (["public", "volunteer"].includes(currentUser.role)) {
             loadMyReportedRescues();
@@ -536,7 +546,7 @@ function updateAuthUI() {
         if (notificationBell) notificationBell.style.display = "none";
     }
 
-    arrangeRolePageOrder(currentUser ? currentUser.role : null);
+    // Sidebar navigation controls visibility; keep all sections in their original DOM order.
 
         // Show introductory sections only before login.
         const introSection = document.getElementById("introSection");
@@ -573,19 +583,19 @@ function updateAuthUI() {
     updateWelcomeDashboard();
     loadDashboardStats();
 
-    // Always start at Home after login/logout state changes.
+    // Always start at the correct first page after login/logout state changes.
     if (typeof showNavigationPage === "function") {
-        showNavigationPage("home");
+        showNavigationPage(currentUser ? "dashboard" : "home");
     }
 
-    // Sidebar menu is only available after login.
-    if (navMenu) {
-        navMenu.classList.toggle("hidden", !currentUser);
-    }
+    const guestMenu = document.getElementById("guestSidebarMenu");
+    const loggedMenu = document.getElementById("navMenu");
+    if (guestMenu) guestMenu.classList.toggle("hidden", Boolean(currentUser));
+    if (loggedMenu) loggedMenu.classList.toggle("hidden", !currentUser);
 
     // =================================
     // AVAILABILITY
-    // HELPER ROLES ONLY
+    // VOLUNTEER / NGO / VET
     // =================================
 
     const navAvailability =
@@ -597,8 +607,7 @@ function updateAuthUI() {
 
         const isHelperRole =
             currentUser &&
-            ["volunteer", "ngo", "vet"]
-                .includes(currentUser.role);
+            ["volunteer", "ngo", "vet"].includes(currentUser.role);
 
 
         navAvailability.classList.toggle(
@@ -1372,6 +1381,17 @@ if (markAllNotificationsBtn) {
         }
     );
 }
+
+const notificationPageMarkAllBtn =
+    document.getElementById("notificationPageMarkAllBtn");
+
+if (notificationPageMarkAllBtn) {
+    notificationPageMarkAllBtn.addEventListener("click", async function () {
+        await markAllNotificationsRead();
+        await loadNotifications();
+        syncNotificationPage();
+    });
+}
 async function deleteNotification(notificationId) {
 
     try {
@@ -1545,11 +1565,11 @@ document
             );
 
         if (navMenu) {
+            navMenu.classList.add("hidden");
+        }
 
-            navMenu.classList.add(
-                "hidden"
-            );
-
+        if (typeof showNavigationPage === "function") {
+            showNavigationPage("home");
         }
 
     });
@@ -1630,7 +1650,7 @@ if (navAvailabilityBtn) {
 // AUTH PAGE NAVIGATION
 // ================================
 
-function showLoginPage() {
+function showLoginPage(shouldScroll = true) {
 
     const loginCard =
         document.getElementById("loginCard");
@@ -1648,15 +1668,13 @@ function showLoginPage() {
     loginCard.classList.remove("hidden");
     registerCard.classList.add("hidden");
 
-    if (authSection) {
-        authSection.scrollIntoView({
-            behavior: "smooth"
-        });
+    if (authSection && shouldScroll) {
+        authSection.scrollIntoView({ behavior: "smooth" });
     }
 }
 
 
-function showRegisterPage() {
+function showRegisterPage(shouldScroll = true) {
 
     const loginCard =
         document.getElementById("loginCard");
@@ -1674,10 +1692,8 @@ function showRegisterPage() {
     loginCard.classList.add("hidden");
     registerCard.classList.remove("hidden");
 
-    if (authSection) {
-        authSection.scrollIntoView({
-            behavior: "smooth"
-        });
+    if (authSection && shouldScroll) {
+        authSection.scrollIntoView({ behavior: "smooth" });
     }
 }
 
@@ -3988,9 +4004,17 @@ if (findNearbyHelpersBtn) {
 // =========================================
 
 const navMenu = document.getElementById("navMenu");
+const guestSidebarMenu = document.getElementById("guestSidebarMenu");
 
 const pageTargets = {
     home: ["userWelcomeDashboard"],
+    dashboard: ["userWelcomeDashboard"],
+    whatWeProvide: ["introSection"],
+    whoCanUse: ["rolesSection"],
+    howItWorks: ["howItWorks"],
+    login: ["authSection"],
+    register: ["authSection"],
+    notifications: ["notifications"],
     announcements: ["announcements"],
     aiRescueAssistant: ["aiRescueAssistant"],
     report: ["report"],
@@ -4002,100 +4026,74 @@ const pageTargets = {
 };
 
 const navigableSectionIds = [
-    "home",
-    "userWelcomeDashboard",
-    "introSection",
-    "rolesSection",
-    "dashboardSection",
-    "howItWorks",
-    "announcements",
-    "aiRescueAssistant",
-    "report",
-    "nearbyHelpersSection",
-    "history",
-    "nearbyRescues",
-    "activeRescues",
-    "resolvedHistory"
+    "home", "userWelcomeDashboard", "introSection", "rolesSection",
+    "dashboardSection", "howItWorks", "authSection", "notifications",
+    "announcements", "aiRescueAssistant", "report", "nearbyHelpersSection",
+    "history", "nearbyRescues", "activeRescues", "resolvedHistory"
 ];
 
-function showNavigationPage(pageName) {
+function syncNotificationPage() {
+    const source = document.getElementById("notificationList");
+    const target = document.getElementById("notificationPageList");
+    if (!source || !target) return;
+    target.innerHTML = source.innerHTML;
+}
 
+function showNavigationPage(pageName) {
     let visibleIds = pageTargets[pageName] || [];
 
-    // Guest Home keeps the public landing page together.
-    if (!currentUser && pageName === "home") {
-        visibleIds = [
-            "home",
-            "introSection",
-            "rolesSection",
-            "dashboardSection",
-            "howItWorks"
-        ];
+    if (!currentUser) {
+        // Guest pages use the public sections one at a time.
+        if (pageName === "home") visibleIds = ["home"];
+        if (pageName === "dashboard") visibleIds = ["dashboardSection"];
+    } else if (pageName === "dashboard" || pageName === "home") {
+        // Logged-in users use the role-aware welcome dashboard.
+        visibleIds = ["userWelcomeDashboard"];
     }
 
     navigableSectionIds.forEach(function (id) {
-
         const section = document.getElementById(id);
-
         if (!section) return;
-
         const shouldShow = visibleIds.includes(id);
-
-        section.classList.toggle(
-            "navigation-page-hidden",
-            !shouldShow
-        );
-
-        section.style.display =
-            shouldShow ? "" : "none";
+        section.classList.toggle("navigation-page-hidden", !shouldShow);
+        if (shouldShow) {
+            section.classList.remove("hidden");
+            section.style.display = "";
+        } else {
+            section.classList.add("hidden");
+            section.style.display = "none";
+        }
     });
 
-    document.querySelectorAll("#navMenu a").forEach(function (link) {
+    if (!currentUser && pageName === "login") showLoginPage(false);
+    if (!currentUser && pageName === "register") showRegisterPage(false);
+    if (pageName === "notifications") syncNotificationPage();
 
-        const linkPage =
-            link.dataset.page ||
-            (link.getAttribute("href") || "")
-                .replace(/^#/, "");
-
-        link.classList.toggle(
-            "active",
-            linkPage === pageName
-        );
+    document.querySelectorAll("#navMenu a, #guestSidebarMenu a").forEach(function (link) {
+        const linkPage = link.dataset.page || (link.getAttribute("href") || "").replace(/^#/, "");
+        link.classList.toggle("active", linkPage === pageName);
     });
 
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-
+    window.scrollTo({ top: 0, behavior: "smooth" });
     closeAppSidebar();
 }
 
-document.querySelectorAll("#navMenu a").forEach(function (link) {
-
-    link.addEventListener("click", function (event) {
-
-        const pageName =
-            link.dataset.page ||
-            (link.getAttribute("href") || "")
-                .replace(/^#/, "");
-
-        if (
-            !pageTargets[pageName] &&
-            pageName !== "home"
-        ) {
-            return;
-        }
-
-        event.preventDefault();
-        showNavigationPage(pageName);
+function bindSidebarLinks(selector) {
+    document.querySelectorAll(selector + " a").forEach(function (link) {
+        link.addEventListener("click", function (event) {
+            const pageName = link.dataset.page || (link.getAttribute("href") || "").replace(/^#/, "");
+            if (!pageTargets[pageName]) return;
+            event.preventDefault();
+            showNavigationPage(pageName);
+        });
     });
-});
+}
 
-// =========================================
-// SIDEBAR OPEN / CLOSE
-// =========================================
+bindSidebarLinks("#navMenu");
+bindSidebarLinks("#guestSidebarMenu");
 
+
+document.documentElement.classList.add("resqpaws-app");
 document.body.classList.add("has-sidebar");
 
 const appSidebar = document.getElementById("appSidebar");

@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
+<body class="has-sidebar">
     <p id="globalMessage" class="form-message"></p>
 
 <!-- APP SIDEBAR -->
@@ -58,6 +58,23 @@
 
         </div>
 
+
+        <!-- GUEST SIDEBAR MENU -->
+        <div id="guestSidebarMenu" class="guest-sidebar-menu">
+            <div class="nav-menu-header">
+                <strong>Welcome to ResQPaws</strong>
+                <span>Animal Rescue Platform</span>
+            </div>
+            <div class="nav-menu-links">
+                <a href="#home" data-page="home">🏠 Home</a>
+                <a href="#dashboardSection" data-page="dashboard">📊 Dashboard</a>
+                <a href="#introSection" data-page="whatWeProvide">💙 What We Provide</a>
+                <a href="#rolesSection" data-page="whoCanUse">👥 Who Can Use</a>
+                <a href="#howItWorks" data-page="howItWorks">⚙️ How It Works</a>
+                <a href="#authSection" data-page="login">🔐 Login</a>
+                <a href="#authSection" data-page="register">📝 Register</a>
+            </div>
+        </div>
 
         <!-- LOGGED IN -->
 
@@ -152,45 +169,49 @@
 
                 <div class="nav-menu-links">
 
-                    <a href="#home" id="menuHome">
-                        🏠 Home
+                    <a href="#userWelcomeDashboard" id="menuDashboard" data-page="dashboard">
+                        📊 Dashboard
+                    </a>
+
+                    <a href="#notifications" id="menuNotifications" data-page="notifications">
+                        🔔 Notifications
                     </a>
 
                     <a
                         href="#announcements"
-                        id="menuAnnouncements"
+                        id="menuAnnouncements" data-page="announcements"
                     >
                         📢 Announcements
                     </a>
 
                     <a
                         href="#aiRescueAssistant"
-                        id="menuAiAssistant"
+                        id="menuAiAssistant" data-page="aiRescueAssistant"
                     >
                         🤖 Rescue Assistant
                     </a>
 
-                    <a href="#report" id="menuReport">
+                    <a href="#report" id="menuReport" data-page="report">
                         🚨 Report an Animal
                     </a>
 
                     <a
                         href="#nearbyHelpersSection"
-                        id="menuNearbyHelpers"
+                        id="menuNearbyHelpers" data-page="nearbyHelpersSection"
                     >
                         📍 Nearby Helpers
                     </a>
 
                     <a
                         href="#history"
-                        id="menuHistory"
+                        id="menuHistory" data-page="history"
                     >
                         📋 My Reports
                     </a>
 
                     <a
                         href="#history"
-                        id="menuTrackReports"
+                        id="menuTrackReports" data-page="history"
                     >
                         🧭 Track My Reports
                     </a>
@@ -199,23 +220,23 @@
 
                     <a
                         href="#nearbyRescues"
-                        id="menuRescueRequests"
+                        id="menuRescueRequests" data-page="nearbyRescues"
                     >
                         🚨 Rescue Requests
                     </a>
 
                     <a
                         href="#activeRescues"
-                        id="menuActiveRescues"
+                        id="menuActiveRescues" data-page="activeRescues"
                     >
-                        🐾 Active Requests
+                        🐾 Active Rescues
                     </a>
 
                     <a
                         href="#resolvedHistory"
-                        id="menuResolvedHistory"
+                        id="menuResolvedHistory" data-page="resolvedHistory"
                     >
-                        🏅 Resolved History
+                        🏅 Completed Rescue History
                     </a>
 
                 </div>
@@ -274,7 +295,11 @@
                     🧭 See How It Works
                 </button>
 
+            </div>
+        </div>
+
     </section>
+
 <div id="userWelcomeDashboard" class="user-welcome-dashboard hidden">
     <div class="welcome-banner">
         <p class="welcome-eyebrow">RESQPAWS COMMUNITY</p>
@@ -1055,6 +1080,22 @@
 
     </section>
 
+
+    <!-- NOTIFICATIONS -->
+    <section id="notifications" class="section logged-in-only-section navigation-notifications-page">
+        <div class="section-heading">
+            <p class="eyebrow">ACCOUNT</p>
+            <h2>🔔 Notifications</h2>
+            <p class="section-description">Your latest ResQPaws notifications.</p>
+        </div>
+        <div class="notification-page-card">
+            <div class="notification-dropdown-header">
+                <strong>Notifications</strong>
+                <button type="button" id="notificationPageMarkAllBtn" class="notification-read-btn">Mark all read</button>
+            </div>
+            <div id="notificationPageList"><div class="empty-state">No notifications yet.</div></div>
+        </div>
+    </section>
 
     <!-- ANNOUNCEMENTS -->
     <section id="announcements" class="section logged-in-only-section">
