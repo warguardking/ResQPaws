@@ -3510,3 +3510,154 @@ body.has-sidebar .hero-content, body.has-sidebar .section > *, body.has-sidebar 
   body.has-sidebar > .hero, body.has-sidebar > section, body.has-sidebar > footer, body.has-sidebar > #userWelcomeDashboard, body.has-sidebar > main { width:100%; max-width:100%; }
   .app-sidebar { width:min(290px,86vw) !important; }
 }
+
+/* =========================================================
+   FINAL APP SHELL - SIDEBAR + SINGLE PAGE NAVIGATION
+========================================================= */
+
+:root {
+    --sidebar-width: 270px;
+    --app-page-gap: 32px;
+}
+
+html,
+body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+body.has-sidebar {
+    margin: 0 !important;
+    padding-left: var(--sidebar-width) !important;
+    box-sizing: border-box;
+}
+
+/* Fixed sidebar */
+body.has-sidebar .app-sidebar {
+    position: fixed !important;
+    left: 0 !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    width: var(--sidebar-width) !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    overflow-x: hidden;
+    overflow-y: auto;
+    z-index: 2000;
+    box-sizing: border-box;
+}
+
+/* Same spacing for every opened page */
+body.has-sidebar > .hero,
+body.has-sidebar > .section,
+body.has-sidebar > #userWelcomeDashboard,
+body.has-sidebar > footer {
+    width: auto !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: var(--app-page-gap) !important;
+    padding-right: var(--app-page-gap) !important;
+    box-sizing: border-box;
+}
+
+/* Critical: only selected page is visible */
+.navigation-page-hidden {
+    display: none !important;
+}
+
+/* Direct vertical sidebar menu */
+.app-sidebar .nav-menu {
+    display: flex !important;
+    flex-direction: column;
+    width: 100%;
+    min-width: 0;
+    position: static;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+}
+
+.app-sidebar .nav-menu.hidden {
+    display: none !important;
+}
+
+.app-sidebar .nav-menu-links {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 5px;
+    width: 100%;
+    padding: 8px 0;
+}
+
+.app-sidebar .nav-menu-links a {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: 44px;
+    box-sizing: border-box;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+.app-sidebar .nav-menu-links a.active {
+    background: rgba(45, 212, 191, 0.14);
+    border-left: 3px solid #2dd4bf;
+    padding-left: 10px;
+}
+
+.app-sidebar #userDisplay {
+    color: #fff;
+    font-size: 17px;
+    font-weight: 800;
+    overflow-wrap: anywhere;
+}
+
+.app-sidebar #userRoleDisplay {
+    color: #aab6d9;
+    font-size: 12px;
+}
+
+.app-sidebar .notification-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    min-height: 44px;
+    box-sizing: border-box;
+}
+
+.app-sidebar .notification-label {
+    color: #dbeafe;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+@media (max-width: 768px) {
+
+    body.has-sidebar {
+        padding-left: 0 !important;
+    }
+
+    body.has-sidebar > .hero,
+    body.has-sidebar > .section,
+    body.has-sidebar > #userWelcomeDashboard {
+        padding-left: 18px !important;
+        padding-right: 18px !important;
+    }
+
+    body.has-sidebar .app-sidebar {
+        width: min(290px, 86vw) !important;
+        transform: translateX(-105%);
+        transition: transform .25s ease;
+    }
+
+    body.has-sidebar .app-sidebar.sidebar-open {
+        transform: translateX(0);
+    }
+}

@@ -558,7 +558,10 @@ function updateAuthUI() {
             document.getElementById("dashboardSection");
 
         if (dashboardSection) {
-            dashboardSection.classList.remove("hidden");
+            dashboardSection.classList.toggle(
+                "hidden",
+                isLoggedIn
+            );
         }
 
         const userWelcomeDashboard =
@@ -569,6 +572,16 @@ function updateAuthUI() {
         }
     updateWelcomeDashboard();
     loadDashboardStats();
+
+    // Always start at Home after login/logout state changes.
+    if (typeof showNavigationPage === "function") {
+        showNavigationPage("home");
+    }
+
+    // Sidebar menu is only available after login.
+    if (navMenu) {
+        navMenu.classList.toggle("hidden", !currentUser);
+    }
 
     // =================================
     // AVAILABILITY
@@ -3969,45 +3982,114 @@ if (findNearbyHelpersBtn) {
         }
     );
 }
-// Sidebar links are visible by default; close the mobile drawer after navigation.
+// =========================================
+// APP PAGE NAVIGATION
+// One sidebar item = one visible page.
+// =========================================
+
 const navMenu = document.getElementById("navMenu");
+
 const pageTargets = {
-  home: ["home", "introSection", "rolesSection", "dashboardSection", "userWelcomeDashboard", "howItWorks"],
-  announcements: ["announcements"],
-  aiRescueAssistant: ["aiRescueAssistant"],
-  report: ["report"],
-  nearbyHelpersSection: ["nearbyHelpersSection"],
-  history: ["history"],
-  nearbyRescues: ["nearbyRescues"],
-  activeRescues: ["activeRescues"],
-  resolvedHistory: ["resolvedHistory"]
+    home: ["userWelcomeDashboard"],
+    announcements: ["announcements"],
+    aiRescueAssistant: ["aiRescueAssistant"],
+    report: ["report"],
+    nearbyHelpersSection: ["nearbyHelpersSection"],
+    history: ["history"],
+    nearbyRescues: ["nearbyRescues"],
+    activeRescues: ["activeRescues"],
+    resolvedHistory: ["resolvedHistory"]
 };
-const pageSectionIds = [...new Set(Object.values(pageTargets).flat())];
-function showNavigationPage(targetId) {
-  const idsToShow = pageTargets[targetId] || [targetId];
-  pageSectionIds.forEach(id => {
-    const el = document.getElementById(id);
-    if (el) {
-      const shouldShow = idsToShow.includes(id);
-      el.classList.toggle("navigation-page-hidden", !shouldShow);
-      el.style.display = shouldShow ? "" : "none";
+
+const navigableSectionIds = [
+    "home",
+    "userWelcomeDashboard",
+    "introSection",
+    "rolesSection",
+    "dashboardSection",
+    "howItWorks",
+    "announcements",
+    "aiRescueAssistant",
+    "report",
+    "nearbyHelpersSection",
+    "history",
+    "nearbyRescues",
+    "activeRescues",
+    "resolvedHistory"
+];
+
+function showNavigationPage(pageName) {
+
+    let visibleIds = pageTargets[pageName] || [];
+
+    // Guest Home keeps the public landing page together.
+    if (!currentUser && pageName === "home") {
+        visibleIds = [
+            "home",
+            "introSection",
+            "rolesSection",
+            "dashboardSection",
+            "howItWorks"
+        ];
     }
-  });
-  document.querySelectorAll("#navMenu a").forEach(link => {
-    const linkId = (link.getAttribute("href") || "").replace(/^#/, "");
-    link.classList.toggle("active", linkId === targetId);
-  });
-  closeAppSidebar();
-  window.scrollTo({ top: 0, behavior: "smooth" });
+
+    navigableSectionIds.forEach(function (id) {
+
+        const section = document.getElementById(id);
+
+        if (!section) return;
+
+        const shouldShow = visibleIds.includes(id);
+
+        section.classList.toggle(
+            "navigation-page-hidden",
+            !shouldShow
+        );
+
+        section.style.display =
+            shouldShow ? "" : "none";
+    });
+
+    document.querySelectorAll("#navMenu a").forEach(function (link) {
+
+        const linkPage =
+            link.dataset.page ||
+            (link.getAttribute("href") || "")
+                .replace(/^#/, "");
+
+        link.classList.toggle(
+            "active",
+            linkPage === pageName
+        );
+    });
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+    closeAppSidebar();
 }
-document.querySelectorAll("#navMenu a").forEach(link => {
-  link.addEventListener("click", event => {
-    const targetId = (link.getAttribute("href") || "").replace(/^#/, "");
-    if (pageTargets[targetId]) {
-      event.preventDefault();
-      showNavigationPage(targetId);
-    }
-  });
+
+document.querySelectorAll("#navMenu a").forEach(function (link) {
+
+    link.addEventListener("click", function (event) {
+
+        const pageName =
+            link.dataset.page ||
+            (link.getAttribute("href") || "")
+                .replace(/^#/, "");
+
+        if (
+            !pageTargets[pageName] &&
+            pageName !== "home"
+        ) {
+            return;
+        }
+
+        event.preventDefault();
+        showNavigationPage(pageName);
+    });
 });
 
 // =========================================
