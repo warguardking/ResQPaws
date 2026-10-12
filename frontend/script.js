@@ -3969,89 +3969,52 @@ if (findNearbyHelpersBtn) {
         }
     );
 }
-// =================================
-// NAV MENU OPEN / CLOSE
-// =================================
-
-const menuToggleBtn =
-    document.getElementById("menuToggleBtn");
-
-const navMenu =
-    document.getElementById("navMenu");
-
-
-if (menuToggleBtn && navMenu) {
-
-    menuToggleBtn.addEventListener(
-        "click",
-        function (event) {
-
-            event.stopPropagation();
-
-            navMenu.classList.toggle(
-                "hidden"
-            );
-
-        }
-    );
-
-
-    navMenu.addEventListener(
-        "click",
-        function (event) {
-            event.stopPropagation();
-        }
-    );
-
-
-    document.addEventListener(
-        "click",
-        function () {
-
-            navMenu.classList.add(
-                "hidden"
-            );
-
-        }
-    );
-
-}
-document
-    .querySelectorAll("#navMenu a")
-    .forEach(function (link) {
-
-        link.addEventListener(
-            "click",
-            function () {
-
-                navMenu.classList.add(
-                    "hidden"
-                );
-
-            }
-        );
-
-    });
-
 // =========================================
-// SIDEBAR OPEN / CLOSE
+// SIDEBAR AND NAV MENU OPEN / CLOSE
 // =========================================
-
+const menuToggleBtn = document.getElementById("menuToggleBtn");
+const navMenu = document.getElementById("navMenu");
 const appSidebar = document.getElementById("appSidebar");
 const sidebarOverlay = document.getElementById("sidebarOverlay");
 const sidebarCloseBtn = document.getElementById("sidebarCloseBtn");
 
 function openAppSidebar() {
     if (!appSidebar) return;
-
+    document.body.classList.remove("sidebar-collapsed");
     appSidebar.classList.add("sidebar-open");
     sidebarOverlay?.classList.add("overlay-open");
 }
 
 function closeAppSidebar() {
-    appSidebar?.classList.remove("sidebar-open");
+    if (!appSidebar) return;
+    appSidebar.classList.remove("sidebar-open");
     sidebarOverlay?.classList.remove("overlay-open");
+    document.body.classList.add("sidebar-collapsed");
 }
 
 sidebarCloseBtn?.addEventListener("click", closeAppSidebar);
 sidebarOverlay?.addEventListener("click", closeAppSidebar);
+
+menuToggleBtn?.addEventListener("click", function (event) {
+    event.preventDefault();
+    event.stopPropagation();
+    if (navMenu) navMenu.classList.toggle("hidden");
+});
+
+navMenu?.addEventListener("click", function (event) {
+    event.stopPropagation();
+});
+
+document.querySelectorAll("#navMenu a").forEach(function (link) {
+    link.addEventListener("click", function () {
+        navMenu?.classList.add("hidden");
+        if (window.innerWidth <= 768) closeAppSidebar();
+    });
+});
+
+// Sidebar starts visible on desktop, and closed on narrow screens.
+if (window.innerWidth <= 768) {
+    document.body.classList.add("sidebar-collapsed");
+} else {
+    document.body.classList.remove("sidebar-collapsed");
+}

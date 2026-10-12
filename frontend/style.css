@@ -3450,3 +3450,35 @@ body.has-sidebar .navbar {
         background: rgba(2, 6, 23, 0.6);
     }
 }
+
+/* SIDEBAR LAYOUT FIX — overrides older navbar/dropdown rules */
+* { box-sizing: border-box; }
+body.has-sidebar { margin: 0; padding-left: 260px; overflow-x: hidden; }
+body.has-sidebar > #globalMessage { margin-left: 0; }
+.app-sidebar { width: 260px; padding: 18px 14px; display: flex; flex-direction: column; gap: 12px; }
+.app-sidebar .sidebar-brand { flex: 0 0 auto; padding: 8px 42px 18px 8px; margin: 0; font-size: 23px; }
+.app-sidebar .navbar { position: relative; top: auto; width: 100%; min-height: 0; padding: 0; display: flex; flex-direction: column; align-items: stretch; justify-content: flex-start; gap: 12px; background: transparent; border: 0; }
+.app-sidebar .navbar > .logo { display: none; }
+.app-sidebar .nav-user, .app-sidebar .logged-in-nav { width: 100%; display: flex; flex-direction: column; align-items: stretch; gap: 12px; }
+.app-sidebar .logged-in-nav.hidden { display: none !important; }
+.app-sidebar .nav-user-info { align-items: flex-start; padding: 8px; }
+.app-sidebar #guestAuthButtons { display: flex; flex-wrap: wrap; }
+.app-sidebar .notification-wrapper { position: relative; }
+.app-sidebar .menu-toggle-btn { width: 100%; min-height: 44px; }
+.app-sidebar .nav-menu { position: static; width: 100%; max-height: none; margin-top: 0; overflow: visible; border-radius: 12px; box-shadow: none; background: transparent; border: 0; }
+.app-sidebar .nav-menu.hidden { display: none !important; }
+.app-sidebar .nav-menu-header { padding: 10px 8px; background: transparent; }
+.app-sidebar .nav-menu-links { display: flex; flex-direction: column; align-items: stretch; gap: 5px; padding: 8px 0; }
+.app-sidebar .nav-menu-links a { width: 100%; white-space: normal; }
+.app-sidebar .nav-menu-footer { padding: 8px 0; }
+.app-sidebar .sidebar-close-btn { display: block; position: absolute; top: 20px; right: 14px; z-index: 5; }
+body.has-sidebar.sidebar-collapsed { padding-left: 0; }
+body.has-sidebar.sidebar-collapsed .app-sidebar { transform: translateX(-100%); }
+.sidebar-overlay { display: none; }
+@media (max-width: 768px) {
+ body.has-sidebar { padding-left: 0; }
+ .app-sidebar { width: min(290px, 85vw); transform: translateX(-100%); transition: transform .25s ease; }
+ .app-sidebar.sidebar-open { transform: translateX(0); }
+ body.has-sidebar.sidebar-collapsed .app-sidebar { transform: translateX(-100%); }
+ .sidebar-overlay.overlay-open { display: block; position: fixed; inset: 0; z-index: 1150; background: rgba(2,6,23,.6); }
+}
