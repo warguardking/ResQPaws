@@ -485,18 +485,25 @@ function updateAuthUI() {
 
         if (currentUser.role === "public") {
             if (menuNearbyHelpers) menuNearbyHelpers.style.display = "block";
-            if (menuTrackReports) menuTrackReports.style.display = "block";
-            if (menuHistory) {
-                menuHistory.textContent = "📋 My Reports";
-                menuHistory.href = "#history";
-                menuHistory.style.display = "block";
+            // Keep only one report-tracking entry for public users.
+            if (menuHistory) menuHistory.style.display = "none";
+            if (menuTrackReports) {
+                menuTrackReports.textContent = "🧭 Track My Reports";
+                menuTrackReports.href = "#history";
+                menuTrackReports.style.display = "block";
             }
             if (nearbyHelpersSection) nearbyHelpersSection.style.display = "";
             if (historySection) historySection.style.display = "";
         }
 
         if (currentUser.role === "volunteer") {
-            if (menuTrackReports) menuTrackReports.style.display = "block";
+            // Volunteer uses Track My Reports as the single report-history entry.
+            if (menuHistory) menuHistory.style.display = "none";
+            if (menuTrackReports) {
+                menuTrackReports.textContent = "🧭 Track My Reports";
+                menuTrackReports.href = "#history";
+                menuTrackReports.style.display = "block";
+            }
             if (menuRescueRequests) menuRescueRequests.style.display = "block";
             if (menuActiveRescues) menuActiveRescues.style.display = "block";
             if (menuResolvedHistory) menuResolvedHistory.style.display = "block";

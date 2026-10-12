@@ -4037,3 +4037,51 @@ body.has-sidebar .app-sidebar .nav-menu-footer {
     margin-top: 8px !important;
     padding-bottom: 24px !important;
 }
+
+
+/* =========================================================
+   SIDEBAR MENU SCROLL + STICKY LOGOUT
+   Keep the logout button visible while only the long menu list
+   scrolls. This prevents Volunteer/NGO/Vet actions from pushing
+   Logout below the viewport.
+========================================================= */
+body.has-sidebar .app-sidebar {
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+}
+
+body.has-sidebar .app-sidebar #navMenu {
+    display: flex !important;
+    flex-direction: column !important;
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+}
+
+body.has-sidebar .app-sidebar #navMenu .nav-menu-links {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    padding-right: 4px !important;
+    scrollbar-width: thin;
+}
+
+body.has-sidebar .app-sidebar #navMenu .nav-menu-footer {
+    flex: 0 0 auto !important;
+    margin-top: 6px !important;
+    padding: 10px 0 18px !important;
+    background: inherit !important;
+    position: relative !important;
+    z-index: 5 !important;
+}
+
+body.has-sidebar .app-sidebar #navMenu .menu-logout-btn {
+    display: flex !important;
+    width: 100% !important;
+    min-height: 44px !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+}
