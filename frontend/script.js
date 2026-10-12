@@ -4032,3 +4032,26 @@ document
         );
 
     });
+
+// =========================================
+// SIDEBAR OPEN / CLOSE
+// =========================================
+
+const appSidebar = document.getElementById("appSidebar");
+const sidebarOverlay = document.getElementById("sidebarOverlay");
+const sidebarCloseBtn = document.getElementById("sidebarCloseBtn");
+
+function openAppSidebar() {
+    if (!appSidebar) return;
+
+    appSidebar.classList.add("sidebar-open");
+    sidebarOverlay?.classList.add("overlay-open");
+}
+
+function closeAppSidebar() {
+    appSidebar?.classList.remove("sidebar-open");
+    sidebarOverlay?.classList.remove("overlay-open");
+}
+
+sidebarCloseBtn?.addEventListener("click", closeAppSidebar);
+sidebarOverlay?.addEventListener("click", closeAppSidebar);
