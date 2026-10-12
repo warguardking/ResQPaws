@@ -108,6 +108,7 @@
                 >
                     🔔<span id="notificationBadge" class="notification-badge hidden">0</span>
                 </button>
+                <span class="notification-label">Notifications</span>
 
                 <div
                     id="notificationDropdown"
@@ -130,20 +131,10 @@
 
             </div>
 
-            <button
-                type="button"
-                id="menuToggleBtn"
-                class="menu-toggle-btn"
-            >
-                ☰ Menu
-            </button>
-
-
-            <!-- MENU -->
-
+            <!-- MENU LINKS ARE ALWAYS VISIBLE IN THE SIDEBAR -->
             <div
                 id="navMenu"
-                class="nav-menu hidden"
+                class="nav-menu"
             >
 
                 <div class="nav-menu-header">
@@ -251,6 +242,7 @@
 
 </aside>
 
+<button type="button" id="sidebarOpenBtn" class="sidebar-open-btn" aria-label="Open navigation">☰</button>
 <div id="sidebarOverlay" class="sidebar-overlay"></div>
 
     <!-- HERO -->

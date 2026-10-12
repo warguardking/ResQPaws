@@ -3969,52 +3969,67 @@ if (findNearbyHelpersBtn) {
         }
     );
 }
-// =========================================
-// SIDEBAR AND NAV MENU OPEN / CLOSE
-// =========================================
-const menuToggleBtn = document.getElementById("menuToggleBtn");
+// Sidebar links are visible by default; close the mobile drawer after navigation.
 const navMenu = document.getElementById("navMenu");
+const pageTargets = {
+  home: ["home", "introSection", "rolesSection", "dashboardSection", "userWelcomeDashboard", "howItWorks"],
+  announcements: ["announcements"],
+  aiRescueAssistant: ["aiRescueAssistant"],
+  report: ["report"],
+  nearbyHelpersSection: ["nearbyHelpersSection"],
+  history: ["history"],
+  nearbyRescues: ["nearbyRescues"],
+  activeRescues: ["activeRescues"],
+  resolvedHistory: ["resolvedHistory"]
+};
+const pageSectionIds = [...new Set(Object.values(pageTargets).flat())];
+function showNavigationPage(targetId) {
+  const idsToShow = pageTargets[targetId] || [targetId];
+  pageSectionIds.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      const shouldShow = idsToShow.includes(id);
+      el.classList.toggle("navigation-page-hidden", !shouldShow);
+      el.style.display = shouldShow ? "" : "none";
+    }
+  });
+  document.querySelectorAll("#navMenu a").forEach(link => {
+    const linkId = (link.getAttribute("href") || "").replace(/^#/, "");
+    link.classList.toggle("active", linkId === targetId);
+  });
+  closeAppSidebar();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+document.querySelectorAll("#navMenu a").forEach(link => {
+  link.addEventListener("click", event => {
+    const targetId = (link.getAttribute("href") || "").replace(/^#/, "");
+    if (pageTargets[targetId]) {
+      event.preventDefault();
+      showNavigationPage(targetId);
+    }
+  });
+});
+
+// =========================================
+// SIDEBAR OPEN / CLOSE
+// =========================================
+
+document.body.classList.add("has-sidebar");
+
 const appSidebar = document.getElementById("appSidebar");
 const sidebarOverlay = document.getElementById("sidebarOverlay");
 const sidebarCloseBtn = document.getElementById("sidebarCloseBtn");
+const sidebarOpenBtn = document.getElementById("sidebarOpenBtn");
 
 function openAppSidebar() {
     if (!appSidebar) return;
-    document.body.classList.remove("sidebar-collapsed");
     appSidebar.classList.add("sidebar-open");
     sidebarOverlay?.classList.add("overlay-open");
 }
-
 function closeAppSidebar() {
-    if (!appSidebar) return;
-    appSidebar.classList.remove("sidebar-open");
+    appSidebar?.classList.remove("sidebar-open");
     sidebarOverlay?.classList.remove("overlay-open");
-    document.body.classList.add("sidebar-collapsed");
 }
-
+sidebarOpenBtn?.addEventListener("click", openAppSidebar);
 sidebarCloseBtn?.addEventListener("click", closeAppSidebar);
 sidebarOverlay?.addEventListener("click", closeAppSidebar);
-
-menuToggleBtn?.addEventListener("click", function (event) {
-    event.preventDefault();
-    event.stopPropagation();
-    if (navMenu) navMenu.classList.toggle("hidden");
-});
-
-navMenu?.addEventListener("click", function (event) {
-    event.stopPropagation();
-});
-
-document.querySelectorAll("#navMenu a").forEach(function (link) {
-    link.addEventListener("click", function () {
-        navMenu?.classList.add("hidden");
-        if (window.innerWidth <= 768) closeAppSidebar();
-    });
-});
-
-// Sidebar starts visible on desktop, and closed on narrow screens.
-if (window.innerWidth <= 768) {
-    document.body.classList.add("sidebar-collapsed");
-} else {
-    document.body.classList.remove("sidebar-collapsed");
-}
