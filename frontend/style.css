@@ -3947,3 +3947,93 @@ body.has-sidebar .app-sidebar #menuUserRole {
         padding: 20px !important;
     }
 }
+
+
+/* =========================================================
+   FINAL SIDEBAR AUTH VISIBILITY OVERRIDE
+   The legacy navbar CSS contains older .hidden rules. The app
+   sidebar must always reflect the current login state.
+========================================================= */
+body.has-sidebar .app-sidebar #loggedInUserArea:not(.hidden) {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    width: 100% !important;
+    gap: 12px !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+body.has-sidebar .app-sidebar #loggedInUserArea.hidden {
+    display: none !important;
+}
+
+body.has-sidebar .app-sidebar #guestSidebarMenu:not(.hidden) {
+    display: block !important;
+    width: 100% !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+body.has-sidebar .app-sidebar #guestSidebarMenu.hidden {
+    display: none !important;
+}
+
+/* Never let the old dropdown-menu rule force a hidden logged-in menu open. */
+body.has-sidebar .app-sidebar #navMenu.hidden {
+    display: none !important;
+}
+
+body.has-sidebar .app-sidebar #navMenu:not(.hidden) {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+}
+
+/* Role-specific links are explicitly enabled by updateAuthUI(). */
+body.has-sidebar .app-sidebar #navMenu .nav-menu-links a[style*="display: block"] {
+    display: flex !important;
+}
+
+/* =========================================================
+   FINAL ROLE SIDEBAR CLEANUP
+   - The notification bell is not a second menu item; the
+     dedicated Notifications link is the only notification entry.
+   - Role links hidden by JS must stay hidden despite legacy
+     display:flex !important rules.
+========================================================= */
+body.has-sidebar .app-sidebar .notification-wrapper {
+    display: none !important;
+}
+
+body.has-sidebar .app-sidebar #navMenu .nav-menu-links a[style*="display: none"],
+body.has-sidebar .app-sidebar #navMenu .nav-menu-links a[style*="display:none"] {
+    display: none !important;
+}
+
+body.has-sidebar .app-sidebar #navMenu .nav-menu-links a[style*="display: block"],
+body.has-sidebar .app-sidebar #navMenu .nav-menu-links a[style*="display:block"] {
+    display: flex !important;
+}
+
+/* Let the whole sidebar scroll naturally from top to bottom. */
+body.has-sidebar .app-sidebar {
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    scrollbar-gutter: stable;
+}
+
+body.has-sidebar .app-sidebar .navbar,
+body.has-sidebar .app-sidebar .nav-user,
+body.has-sidebar .app-sidebar #loggedInUserArea,
+body.has-sidebar .app-sidebar #navMenu {
+    min-height: 0 !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+}
+
+body.has-sidebar .app-sidebar .nav-menu-footer {
+    margin-top: 8px !important;
+    padding-bottom: 24px !important;
+}

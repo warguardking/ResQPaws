@@ -258,6 +258,8 @@ function updateAuthUI() {
         // ROLE NAME
         // =================================
 
+        currentUser.role = String(currentUser.role || "public").trim().toLowerCase();
+
         const roleNames = {
 
             public: "Public User",
@@ -955,6 +957,8 @@ async function loadCurrentUser() {
         );
 
         currentUser = data;
+        // Normalize role values from the API so sidebar permissions always match.
+        currentUser.role = String(currentUser.role || "public").trim().toLowerCase();
         updateAuthUI();
 
     } catch (error) {
