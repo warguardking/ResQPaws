@@ -4006,7 +4006,7 @@ if (findNearbyHelpersBtn) {
 const navMenu = document.getElementById("navMenu");
 const guestSidebarMenu = document.getElementById("guestSidebarMenu");
 
-const pageTargets = {
+var pageTargets = {
     home: ["userWelcomeDashboard"],
     dashboard: ["userWelcomeDashboard"],
     whatWeProvide: ["introSection"],
@@ -4025,7 +4025,7 @@ const pageTargets = {
     resolvedHistory: ["resolvedHistory"]
 };
 
-const navigableSectionIds = [
+var navigableSectionIds = [
     "home", "userWelcomeDashboard", "introSection", "rolesSection",
     "dashboardSection", "howItWorks", "authSection", "notifications",
     "announcements", "aiRescueAssistant", "report", "nearbyHelpersSection",
@@ -4040,6 +4040,10 @@ function syncNotificationPage() {
 }
 
 function showNavigationPage(pageName) {
+    // updateAuthUI() runs once before the navigation map is initialized.
+    // Wait until the navigation map is ready so every page is hidden/shown cleanly.
+    if (!pageTargets || !navigableSectionIds) return;
+
     let visibleIds = pageTargets[pageName] || [];
 
     if (!currentUser) {
@@ -4113,3 +4117,6 @@ function closeAppSidebar() {
 sidebarOpenBtn?.addEventListener("click", openAppSidebar);
 sidebarCloseBtn?.addEventListener("click", closeAppSidebar);
 sidebarOverlay?.addEventListener("click", closeAppSidebar);
+
+// Initialize the single-page view only after the navigation map and sidebar handlers exist.
+showNavigationPage(currentUser ? "dashboard" : "home");
