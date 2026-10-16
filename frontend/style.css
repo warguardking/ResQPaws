@@ -4085,3 +4085,97 @@ body.has-sidebar .app-sidebar #navMenu .menu-logout-btn {
     justify-content: center !important;
     cursor: pointer !important;
 }
+
+/* MOBILE-ONLY SIDEBAR FIX
+   Desktop rules above remain unchanged. On phones, allow the nested
+   navbar/user/menu containers to take their natural height so links
+   cannot collapse into the large blank area seen in the mobile drawer. */
+@media (max-width: 768px) {
+  body.has-sidebar .app-sidebar {
+    position: fixed !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    width: min(340px, 88vw) !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain !important;
+    box-sizing: border-box !important;
+    padding-bottom: max(16px, env(safe-area-inset-bottom)) !important;
+  }
+
+  body.has-sidebar .app-sidebar > .navbar {
+    display: block !important;
+    position: relative !important;
+    inset: auto !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+    flex: 0 0 auto !important;
+  }
+
+  body.has-sidebar .app-sidebar .navbar > .nav-user {
+    display: block !important;
+    position: relative !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  body.has-sidebar .app-sidebar #loggedInUserArea:not(.hidden) {
+    display: flex !important;
+    flex: 0 0 auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  body.has-sidebar .app-sidebar #navMenu:not(.hidden),
+  body.has-sidebar .app-sidebar #guestSidebarMenu:not(.hidden) {
+    display: flex !important;
+    flex-direction: column !important;
+    flex: 0 0 auto !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  body.has-sidebar .app-sidebar #navMenu .nav-menu-links,
+  body.has-sidebar .app-sidebar #guestSidebarMenu .nav-menu-links {
+    display: flex !important;
+    flex: 0 0 auto !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+    gap: 5px !important;
+    padding: 8px 0 14px !important;
+  }
+
+  body.has-sidebar .app-sidebar #navMenu .nav-menu-links a,
+  body.has-sidebar .app-sidebar #guestSidebarMenu .nav-menu-links a {
+    flex: 0 0 auto !important;
+    min-height: 44px !important;
+  }
+
+  body.has-sidebar .app-sidebar #navMenu .nav-menu-footer {
+    display: block !important;
+    flex: 0 0 auto !important;
+    position: relative !important;
+    margin-top: 8px !important;
+    padding-bottom: max(18px, env(safe-area-inset-bottom)) !important;
+  }
+}
