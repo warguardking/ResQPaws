@@ -1,4 +1,9 @@
 .env
+**/.env
 venv/
+**/venv/
 __pycache__/
+**/__pycache__/
 *.pyc
+*.pem
+.DS_Store
