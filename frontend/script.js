@@ -3253,22 +3253,6 @@ if (heroReportBtn) {
 }
 
 
-const heroRequestBtn =
-    document.getElementById("heroRequestBtn");
-
-if (heroRequestBtn) {
-    heroRequestBtn.addEventListener("click", function () {
-
-        document
-            .getElementById("howItWorks")
-            .scrollIntoView({
-                behavior: "smooth"
-            });
-
-    });
-}
-
-
 // ================================
 // INITIAL LOAD
 // ================================

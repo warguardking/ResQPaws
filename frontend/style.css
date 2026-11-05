@@ -4179,23 +4179,37 @@ body.has-sidebar .app-sidebar #navMenu .menu-logout-btn {
     padding-bottom: max(18px, env(safe-area-inset-bottom)) !important;
   }
 }
-
-/* Mobile: move page content below the menu button */
-@media screen and (max-width: 768px) {
-    .hero,
-    #home,
-    .hero-section {
-        padding-top: 85px !important;
-    }
-
-    .hero h1 {
-        margin-top: 15px;
-    }
-}
 @media screen and (max-width: 768px) {
     #sidebarOpenBtn,
     .sidebar-toggle,
     .menu-toggle {
         z-index: 1000;
     }
+}
+
+/* MOBILE: Keep every page heading below the hamburger menu */
+@media screen and (max-width: 768px) {
+
+    body.has-sidebar > .hero:not(.navigation-page-hidden),
+    body.has-sidebar > section:not(.navigation-page-hidden),
+    body.has-sidebar > #userWelcomeDashboard:not(.navigation-page-hidden) {
+        padding-top: 85px !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Keep the menu button above page content */
+    body.has-sidebar .sidebar-open-btn {
+        position: fixed !important;
+        top: 100px !important;
+        left: 13px !important;
+        z-index: 1100 !important;
+    }
+
+    /* Prevent the first heading from touching the menu */
+    body.has-sidebar > .hero:not(.navigation-page-hidden) .section-heading,
+    body.has-sidebar > section:not(.navigation-page-hidden) .section-heading,
+    body.has-sidebar > #userWelcomeDashboard:not(.navigation-page-hidden) .section-heading {
+        margin-top: 0 !important;
+    }
+
 }
